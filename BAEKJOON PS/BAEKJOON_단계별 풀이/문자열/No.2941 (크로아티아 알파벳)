@@ -1,0 +1,41 @@
+#include <iostream>
+#include <string>
+using namespace std;
+int main() {
+    char word[101];
+    cin >> word;
+    int slen = 0, acount = 0;
+    while (slen < 101) {
+        if ((word[slen] == '\0') || (word[slen] == 0)) { break; }
+        if (word[slen] == 'c') {
+            if ((word[slen + 1] == '=') || (word[slen + 1] == '-')) { acount++;  slen += 2; continue; }
+        }
+        else if (word[slen] == 'd') {
+            if (word[slen + 1] == '-') { acount++;  slen += 2; continue; }
+        }
+        else if (word[slen] == 'l') {
+            if (word[slen + 1] == 'j') { acount++;  slen += 2; continue; }
+        }
+        else if (word[slen] == 'n') {
+            if (word[slen + 1] == 'j') { acount++;  slen += 2; continue; }
+        }
+        else if (word[slen] == 's') {
+            if (word[slen + 1] == '=') { acount++;  slen += 2; continue; }
+        }
+        else if (word[slen] == 'z') {
+            if (word[slen + 1] == '=') {
+                if ((slen != 0) && (word[slen - 1] == 'd')) {
+                    slen += 2;
+                    continue;
+                }
+                else {
+                    acount++;  slen += 2;
+                    continue;
+                }
+            }
+        }
+        acount++;
+        slen++;
+    }
+    cout << acount;
+}
