@@ -1,0 +1,12 @@
+#include <iostream>
+int main(){
+    int input_number, cum = 1, counter = 1;
+    std::cin >> input_number;
+    while(1){
+        if(input_number <= cum){
+            std::cout << counter;
+            break;
+        }
+        cum += 6 * counter++;
+    }
+}
