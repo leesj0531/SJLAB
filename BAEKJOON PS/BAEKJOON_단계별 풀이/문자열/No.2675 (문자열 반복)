@@ -1,0 +1,25 @@
+#include <iostream>
+#include <string>
+#include <cstring>
+using namespace std;
+int main() {
+    int case_num, iter_num;
+    char temp;
+    char* sarray;
+    string s;
+    cin >> case_num;
+    for (int i = 0; i < case_num; i++) {
+        cin >> iter_num >> s;
+        sarray = new char[s.size() * iter_num];
+        //for (int n = 0; n < s.size() * iter_num; n++) { sarray[n] = NULL; }
+        memset(sarray, NULL, s.size() * iter_num);
+        for (int j = 0; j < s.size(); j++) { sarray[j * iter_num] = s[j]; }
+        temp = sarray[0];
+        for (int k = 0; k < s.size() * iter_num; k++) {
+            temp = (sarray[k] == NULL) ? temp : sarray[k];
+            cout << temp;
+        }
+        delete[] sarray;
+        cout << "\n";
+    }
+}
