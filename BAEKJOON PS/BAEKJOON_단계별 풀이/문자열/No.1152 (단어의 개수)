@@ -1,0 +1,15 @@
+#include <iostream>
+#include <string>
+using namespace std;
+int main() {
+    int word_count = 0, strlength = 1;
+    char sentence[1000000];
+    cin.getline(sentence, 1000000, '\n');
+    while (1) {
+        if (sentence[strlength] == ' ' && sentence[strlength - 1] != ' ') { word_count++; }
+        if (sentence[strlength] == '\0') { strlength--; break; }
+        strlength++;
+    }
+    if (sentence[strlength] != ' ') { word_count++; }
+    cout << word_count << "\n";
+}
