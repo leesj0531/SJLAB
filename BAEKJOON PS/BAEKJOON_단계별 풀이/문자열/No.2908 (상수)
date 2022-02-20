@@ -1,0 +1,12 @@
+#include <iostream>
+#include <string>
+using namespace std;
+int main() {
+    string num1, num2, rvnum1, rvnum2;
+    cin >> num1 >> num2;
+    for (int i = 3; i > 0; i--) {
+        rvnum1 += num1[i - 1];
+        rvnum2 += num2[i - 1];
+    }
+    cout << ((stoi(rvnum1) > stoi(rvnum2)) ? rvnum1 : rvnum2);
+}
