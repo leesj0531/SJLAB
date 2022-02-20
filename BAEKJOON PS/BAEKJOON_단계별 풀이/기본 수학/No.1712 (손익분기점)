@@ -1,0 +1,9 @@
+#include <iostream>
+int main() {
+    int a_fix, b_chg, c_sel;
+    std::cin >> a_fix >> b_chg >> c_sel;
+    if (c_sel <= b_chg) { std::cout << -1; }
+    else {
+        std::cout << a_fix / (c_sel - b_chg) + 1;
+    }
+}
