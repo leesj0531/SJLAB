@@ -1,0 +1,7 @@
+#include <iostream>
+using namespace std;
+int main(){
+	char input_alphabet;
+	cin >> input_alphabet;
+	cout << int(input_alphabet) << "\n";
+}
