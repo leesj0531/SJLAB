@@ -1,0 +1,16 @@
+#include <iostream>
+bool isPrimeNumber(int a) {
+    if (a == 1) return false;
+    //// sqrt(N)만큼 반복 - O(sqrt(N))
+    for (int i = 2; i*i <= a; i++) {
+        if (a % i == 0) return false;
+    }
+    return true;
+}
+int main() {
+    int n, m;
+    std::cin >> n >> m;
+    for (n; n <= m; n++) {
+        if (isPrimeNumber(n)) std::cout << n << "\n";
+    }
+}
