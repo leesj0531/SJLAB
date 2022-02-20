@@ -1,0 +1,32 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+// 1자리 숫자 char을 int로 바꿀 시 -'0' 필요
+int intchar_diff(char a, char b) {
+    return int(a - '0') - int(b - '0');
+}
+
+// 한수 판별 Def
+bool ishan(int n) {
+    int n_a, ishansu = 1;
+    string sn = to_string(n);
+    if (sn.length() <= 2) {
+        return ishansu;
+    }
+    n_a = intchar_diff(sn[1], sn[0]);
+    for (int m = 2; m < sn.length(); m++) {
+        if (n_a != intchar_diff(sn[m], sn[m - 1])) ishansu = 0;
+        n_a = intchar_diff(sn[m], sn[m - 1]);
+    }
+    return ishansu;
+}
+
+int main() {
+    int input, count = 0;
+    cin >> input;
+    for (int i = 1; i <= input; i++) {
+        if (ishan(i)) count++;
+    }
+    cout << count;
+}
