@@ -1,0 +1,24 @@
+#include <iostream>
+#include <string>
+using namespace std;
+int main() {
+    string s;
+    int adjust_index, max_count_ind = 0, max_count = 0, max_count_comp = 0;
+    int i_array[26] = { 0 };
+    cin >> s;
+    for (int i = 0; i < s.size(); i++) {
+        adjust_index = (int(s[i]) > 96) ? int(s[i]) - 97 : int(s[i]) - 65; // 대,소문자별 보정값 조정
+        i_array[adjust_index] ++;
+        // 중복 최댓값 비교용 변수 갱신
+        if (i_array[adjust_index] == max_count) { max_count_comp = max_count; }
+        // 최댓값 변경 시 갱신 & 해당 알파벳 index 저장
+        if (i_array[adjust_index] > max_count) {
+            max_count = i_array[adjust_index];
+            max_count_ind = adjust_index;
+        }
+    }
+    if (max_count_comp < max_count) {
+        cout << char(max_count_ind + 65);
+    }
+    else { cout << "?\n"; }
+}
