@@ -1,0 +1,22 @@
+#include <iostream>
+#include <string>
+using namespace std;
+int main() {
+    int word_int, alphabet_int, add_num, time, time_sum = 0;
+    char word[16];                      // NULL 크기 +1 포함. char 다룰 때 조심.
+    cin >> word;
+    for (int i = 0; i < 15; i++) {
+        word_int = int(word[i]);        // number 초기화
+        if (word_int == 0) break;       // 단어 종료 시 탈출
+        time = 2;                       // time 초기화
+        alphabet_int = 65;              // int("A")로 초기화
+        for (int diar = 2; diar < 10; diar++) {
+            time++;
+            add_num = (diar == 7 || diar == 9) ? 4 : 3;
+            if (word_int >= alphabet_int && word_int < alphabet_int + add_num) { break; }
+            alphabet_int += add_num;
+        }
+        time_sum += time;
+    }
+    cout << time_sum;
+}
