@@ -1,0 +1,84 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+class Heap {
+	int last_index, last_node;
+	vector<int>heap_array;
+public:
+	Heap(int array_size = 100) {
+		last_index = 0; // 인덱스 0으로 초기화
+		last_node = 0;  // last 노드값 0으로 초기화
+		heap_array.push_back(0); // index Rank화.
+	}
+	//~Heap() { heap_array; } // vector 소멸자- 확인
+	void insert(int value) {	// O(1)
+		last_index++;
+		heap_array.push_back(value);
+		upheap();
+		return;
+	}
+	void pop() {		// O(log n)
+		if (last_index == 0) { cout << 0 << "\n"; return; }
+		cout << heap_array.at(1) << "\n";
+		heap_array.at(1) = heap_array.at(last_index--);	// root ↔ lastnode swap 후 lastnode - 1
+		heap_array.pop_back();
+		downheap();
+	}
+	void upheap() {		// O(log n)
+		int i = last_index;
+		while (1) {
+			swap_value(i, int(i / 2));
+			i = int(i / 2);
+			if (heap_array.at(i) >= heap_array.at(int(i / 2)) || i <= 1) { break; }
+		}
+	}
+	int get_small_child(int index) {
+		int small_child;
+		if (index * 2 > last_index) {
+		small_child = -1;
+		}
+		else if (index * 2 == last_index) {
+			small_child = index * 2;
+		}
+		else {
+			small_child = (heap_array.at(index * 2) > heap_array.at(index * 2 + 1)) ? index * 2 + 1 : index * 2;
+		}
+		return small_child;
+	}
+	void downheap() {		// O(log n)
+		int i = 1, small_child;
+		if (last_index < i * 2) { return; }
+		small_child = get_small_child(i);
+		while (small_child <= last_index) {
+			swap_value(small_child, i);
+			i = small_child;
+			small_child = get_small_child(i);
+			if (small_child == -1 || heap_array.at(small_child) >= heap_array.at(i)) { break; }
+		}
+	}
+	void swap_value(int child_index, int parent_index) {	// O(1)
+		int swap;
+		if (heap_array.at(child_index) < heap_array.at(parent_index)) {	// 부모 노드와 값 비교
+			swap = heap_array.at(child_index);
+			heap_array.at(child_index) = heap_array.at(parent_index);
+			heap_array.at(parent_index) = swap;
+		}
+	}
+};
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    
+	int iter_number, value;
+	Heap heap;
+	cin >> iter_number;
+	for (int i = 0; i < iter_number; i++) {
+		cin >> value;
+		if (value == 0) {
+			heap.pop();
+		}
+		else {
+			heap.insert(value);
+		}
+	}
+}
