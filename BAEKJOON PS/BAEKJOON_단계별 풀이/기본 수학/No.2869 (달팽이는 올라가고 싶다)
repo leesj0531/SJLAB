@@ -1,24 +1,12 @@
 #include <iostream>
 using namespace std;
-int get_room_number(int Height, int Width, int customer) {
-    int xx, yy;
-    if (customer % Height == 0) {
-        yy = Height;
-        xx = customer / Height;
-    }
-    else {
-        yy = customer % Height;
-        xx = customer / Height + 1;
-    }
-    return yy * 100 + xx;
-}
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(NULL);
-    int iter_num, H, W, corder;
-    cin >> iter_num;
-    for (int i = 0; i < iter_num; i++) {
-        cin >> H >> W >> corder;
-        cout << get_room_number(H, W, corder) << "\n";
-    }
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	
+	int up, down, goal;
+	cin >> up >> down >> goal;
+	int mod = (goal - up) % (up - down);
+	int min_day = (goal - up) / (up - down);
+	cout << ((mod == 0) ? min_day + 1 : min_day + 2);
 }
