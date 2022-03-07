@@ -1,0 +1,24 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+vector<int> edgearr[50];
+int main() {
+    int n, m, index_over;
+    cin >> n >> m;
+    for (int i = 1; i <= m; i++) {
+        edgearr[i].push_back(0);
+    }
+    for (int j = m + 1; j < n; j++) {
+        if (j % m == 0) { edgearr[m].push_back(j); }
+        else { edgearr[j % m].push_back(j); }
+    }
+    index_over = (n > 2 * m) ? 1 : n;
+    int k_temp;
+    for (int k = 1; k <= m; k++) {
+        k_temp = k;
+        for (int l = 0; l < edgearr[k].size(); l++) {
+            if (l > index_over) { k_temp += m; }
+            cout << k_temp << " " << edgearr[k][l] << "\n";
+        }
+    }
+}
