@@ -1,0 +1,111 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+struct edge {
+    int value;
+    bool IsVisited = false;
+};
+struct missing_node {
+    int key;
+    vector<edge> edgelist;
+};
+int* recursive_finder(missing_node* missing_node_list, int* array, int key, int pre_key = 0) {
+    missing_node root = missing_node_list[key];
+    for (auto& edge_ : root.edgelist) {
+        if (edge_.value == pre_key) { edge_.IsVisited = true; }     // 타고온 노드 상태 -> Visited로 변경
+        if (!edge_.IsVisited) {
+            array[edge_.value] = root.key;
+            recursive_finder(missing_node_list, array, edge_.value, root.key);
+        }
+    }
+    return array;
+}
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int node_number, key1, key2, parent_value;
+
+    cin >> node_number;
+
+    int* parent_list = new int[node_number + 1]{ 0 };
+    missing_node* mnlist = new missing_node[node_number + 1]; // rank
+
+    //root 셋팅
+    parent_value = 1;
+    parent_list[1] = parent_value;
+
+    for (int i = 1; i < node_number; i++) {
+        cin >> key1 >> key2;
+        // index 0 : unexplored(신규),  index -1 : visited but dont have root(후보)
+        if (parent_list[key1] == 0 && parent_list[key2] == 0) {   // Case 1. 전부 신규 값
+            parent_list[key1] = -1;
+            parent_list[key2] = -1;
+
+            missing_node* m1 = new missing_node;
+            missing_node* m2 = new missing_node;
+            m1->key = key1;
+            m2->key = key2;
+
+            edge e1, e2;
+            e1.value = key2;
+            e2.value = key1;
+            m1->edgelist.push_back(e1);
+            m2->edgelist.push_back(e2);
+            mnlist[key1] = *m1;
+            mnlist[key2] = *m2;
+        }
+        else if (parent_list[key1] < 1 && parent_list[key2] < 1) {      // Case 2. 기존 값 x. (신규 + 후보 or 후보 + 후보)
+            if (parent_list[key1] < 0 && parent_list[key2] < 0) {   //후보 + 후보
+                edge e1, e2;
+                e1.value = key2;
+                e2.value = key1;
+                mnlist[key1].edgelist.push_back(e1);
+                mnlist[key2].edgelist.push_back(e2);
+            }
+            else {  //신규 + 후보
+                int candidate_value, new_value;
+                candidate_value = (parent_list[key1] != 0) ? key1 : key2;
+                new_value = (parent_list[key1] != 0) ? key2 : key1;
+
+                parent_list[new_value] = -1;
+                missing_node* m = new missing_node;
+                m->key = new_value;
+                edge e1, e2;
+                e1.value = candidate_value;
+                m->edgelist.push_back(e1);
+                mnlist[new_value] = *m;
+                e2.value = new_value;
+                mnlist[candidate_value].edgelist.push_back(e2);
+            }
+        }
+        else {      // Case 3. 기존 값 포함 + 1(신규 or 후보)
+            if (parent_list[key1] > 0) {                // key1 기존
+                if (parent_list[key2] == 0) {   // key2 신규
+                    parent_list[key2] = key1;
+                }
+                else {                          // key2 후보
+                    parent_list[key2] = key1;
+                    //cout << key2 << " " << key1;
+                    parent_list = recursive_finder(mnlist, parent_list, key2);
+                }
+            }
+            else if (parent_list[key2] > 0) {         // key2 기존
+                if (parent_list[key1] == 0) {   // key1 신규
+                    parent_list[key1] = key2;
+                }
+                else {                          // key1 후보
+                    parent_list[key1] = key2;
+                    //cout << mnlist[key1].key << " <--- key\n";
+                    //for (auto& cc : mnlist[key1].edgelist) { cout << cc.value << " <-- edge value\n"; };
+                    parent_list = recursive_finder(mnlist, parent_list, key1);
+                }
+            }
+        }
+
+    }
+
+    for (int j = 2; j <= node_number; j++) {    // O(n)
+        cout << parent_list[j] << "\n";
+    }
+}
