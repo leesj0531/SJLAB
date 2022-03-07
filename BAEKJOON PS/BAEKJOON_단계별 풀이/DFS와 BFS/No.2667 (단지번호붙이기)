@@ -1,0 +1,65 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+using namespace std;
+int map_size;
+int path_number = 1;	// path list rank화
+int map[26][26];
+int visit[26][26];
+int path_list[626];	// index : path
+
+void make_group(int x, int y) {		// DFS to grouping house
+	int new_x, new_y;
+	int move_xy[4]{0};	// 방향키
+	if (x != 0) { move_xy[0] = -1; }
+	if (y != 0) { move_xy[1] = -1; }
+	if (x != map_size) { move_xy[2] = 1; }
+	if (y != map_size) { move_xy[3] = 1; }
+	for (int c = 0; c < 4; c++) {
+		if (move_xy[c] == 0) { continue; }							// exception by boundary condition
+		else {
+			if (c % 2) { new_x = x; new_y = y + move_xy[c]; }		// 1 : y
+			else { new_x = x + move_xy[c]; new_y = y; }				// 0 : x
+			if (map[new_x][new_y] && !visit[new_x][new_y]) {		// 집 존재 + Unvisited 조건
+				visit[new_x][new_y] = 1;
+				path_list[path_number]++;
+				make_group(new_x, new_y);
+			}
+		}
+	}
+}
+void make_path(int size) {
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
+			if (map[i][j] && !visit[i][j]) {
+				make_group(i, j);
+				path_list[path_number] = (path_list[path_number] == 0) ? 1 : path_list[path_number];
+				path_number++;
+			}
+		}
+	}
+}
+bool compare(int a, int b) {	// sort 알고리즘(오름차순 조건)
+	return a < b;
+}
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
+	string isBuilt;
+	cin >> map_size;
+	for (int i = 0; i < map_size; i++) {
+		cin >> isBuilt;
+		for (int j = 0; j < map_size; j++) {
+			map[i][j] = (int)isBuilt[j] - '0';
+		}
+	}
+	make_path(map_size);	// 단지 그룹 생성
+	cout << --path_number << "\n";	// 그룹 개수 print
+	sort(path_list + 1, path_list + path_number + 1, compare);	// 단지 그룹 오름차순 sorting
+	for (int k = 1; k <= path_number; k++) {	// 단지 별 가구수 print
+		cout << path_list[k] << "\n";
+	}
+	if (path_number == 0) { cout << "0\n"; }	// 단지 없을 경우 print 0(가구수)
+}
