@@ -1,0 +1,65 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+vector<int> vertex_array[1001];
+int visited_DFS[1001];				// false로 초기화
+int visited_BFS[1001];				// false로 초기화
+vector<int> min_sort(vector<int> varray, int key) {		// push_back 원소 대상으로 sorting
+	varray.push_back(key);
+	int n = varray.size();
+	int is_convert_end = 0;
+	for (int i = 0; i < n - 1; i++) {
+		if (!is_convert_end) {
+			if (varray[n - i - 1] < varray[n - i - 2]) {
+				varray[n - i - 1] ^= varray[n - i - 2] ^= varray[n - i - 1] ^= varray[n - i - 2];
+			}
+			else { is_convert_end = 1; }
+		}
+	}
+	return varray;
+}
+void DFS(int start_node) {
+	visited_DFS[start_node] = 1;
+	cout << start_node << " ";
+	for (int v = 0; v < vertex_array[start_node].size(); v++) {
+		if (!visited_DFS[vertex_array[start_node][v]]) {
+			DFS(vertex_array[start_node][v]);
+		}
+	}
+}
+void BFS(int start_node) {
+	int next_vertex;
+	vector<int> BFS_seq;
+	BFS_seq.push_back(start_node);
+	visited_BFS[start_node] = 1;
+	cout << start_node << " ";
+	while (!BFS_seq.empty()) {
+		vector<int> BFS_seq_next_level;
+		for (int i = 0; i < BFS_seq.size(); i++) {
+			next_vertex = BFS_seq[i];
+			for (int j = 0; j < vertex_array[next_vertex].size(); j++) {
+				if (!visited_BFS[vertex_array[next_vertex][j]]) {
+					visited_BFS[vertex_array[next_vertex][j]] = 1;
+					cout << vertex_array[next_vertex][j] << " ";
+					BFS_seq_next_level.push_back(vertex_array[next_vertex][j]);
+				}
+			}
+		}
+		BFS_seq.clear();
+		BFS_seq.assign(BFS_seq_next_level.begin(), BFS_seq_next_level.end());		// vector 전체 복사(BFS_seq = BFS_seq_next_level.copy())
+	}
+}
+int main() {
+	int vertex_num, edge_num, starting_vertex, vertex1, vertex2;
+	cin >> vertex_num >> edge_num >> starting_vertex;
+	for (int i = 0; i < edge_num; i++) {
+		cin >> vertex1 >> vertex2;
+		vertex_array[vertex1] = min_sort(vertex_array[vertex1], vertex2);
+		vertex_array[vertex2] = min_sort(vertex_array[vertex2], vertex1);
+	}
+	DFS(starting_vertex);
+	cout << "\n";
+
+	BFS(starting_vertex);
+	cout << "\n";
+}
