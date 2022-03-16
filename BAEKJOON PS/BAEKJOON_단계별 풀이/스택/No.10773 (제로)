@@ -1,0 +1,39 @@
+#include <iostream>
+using namespace std;
+class stack_pp {
+	int size;
+	int* stack;
+public:
+	stack_pp() {
+		size = 0;
+		stack = new int[100001];
+	}
+	void add_item(int key) {
+		stack[size++] = key;
+	}
+	void pop_item() {
+		size--;
+	}
+	void print_sum() {
+		int sum = 0;
+		for (int i = 0; i < size; i++) {
+			sum += stack[i];
+		}
+		cout << sum;
+	}
+};
+int main() {
+	int K, key;
+	stack_pp spp;
+	cin >> K;
+	for (int i = 0; i < K; i++) {
+		cin >> key;
+		if (key != 0) {
+			spp.add_item(key);
+		}
+		else {
+			spp.pop_item();
+		}
+	}
+	spp.print_sum();
+}
