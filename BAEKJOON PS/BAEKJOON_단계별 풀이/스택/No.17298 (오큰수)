@@ -1,0 +1,30 @@
+#include <iostream>
+#include <stack>
+using namespace std;
+int items[1000001];
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
+	int N, item;
+	stack<int> prior, NGE;
+	cin >> N;
+	for (int i = 0; i < N; i++) {		// O(N)
+		cin >> item;
+		items[i] = item;
+	}
+	//	get NGE info
+	for (int i = N - 1; i >= 0; i--) {		// O(N)
+		while (!prior.empty() && items[i] >= prior.top()) {		// O(1)	// prior에는 [-1] 또는 [prev값, prev이전 최댓값] 만 포함되어있음
+			prior.pop();
+		}
+		if (prior.empty()) { NGE.push(-1); }	// save NGE info
+		else { NGE.push(prior.top()); }
+		prior.push(items[i]);					// push new item to comp stack
+	}
+	//	print NGE
+	for (int j = 0; j < N; j++) {
+		cout << NGE.top() << " ";
+		NGE.pop();
+	}
+}
