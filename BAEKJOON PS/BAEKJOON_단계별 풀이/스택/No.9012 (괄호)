@@ -1,0 +1,38 @@
+#include <iostream>
+using namespace std;
+class stack_ps {
+	int size;
+	bool Notps;
+public:
+	stack_ps() {
+		size = 0;
+		Notps = false;
+	}
+	void add_ps() {
+		size++;
+	}
+	void pop_ps() {
+		size--;
+		if (size < 0) { Notps = true; }
+	}
+	void print_Isps() {
+		if (Notps) { cout << "NO\n"; }
+		else {
+			cout << ((size == 0) ? "YES" : "NO") << "\n";
+		}
+	}
+};
+int main() {
+	int K;
+	string ps_string;
+	cin >> K;
+	for (int i = 0; i < K; i++) {
+		cin >> ps_string;
+		stack_ps sps;
+		for (int j = 0; j < ps_string.length(); j++) {
+			if (ps_string[j] == '(') { sps.add_ps(); }
+			else { sps.pop_ps(); }
+		}
+		sps.print_Isps();
+	}
+}
