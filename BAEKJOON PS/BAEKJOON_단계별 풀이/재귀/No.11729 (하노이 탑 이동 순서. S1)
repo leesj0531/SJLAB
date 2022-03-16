@@ -1,0 +1,67 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+vector<int> hanoi_v[4][21];
+vector<string> track;
+int track_count;
+void print_item(vector<int> v[4][21]) {
+    for (int i = 1; i < 4; i++) {
+        auto it = v[i]->begin();
+        while (it != v[i]->end()) {
+            cout << " " << *it++;
+        }
+    }
+}
+void hanoi(int stt_num, int path_num, int prime_num, int size) {
+    int i = 2;
+    while (i <= size) {
+        if (hanoi_v[stt_num]->empty()) break;
+        if (i == 2) {
+            int tp1 = hanoi_v[stt_num]->back();
+            hanoi_v[stt_num]->pop_back();
+            int tp2 = hanoi_v[stt_num]->back();
+            hanoi_v[stt_num]->pop_back();
+            hanoi_v[path_num]->push_back(tp2);
+            hanoi_v[path_num]->push_back(tp1);
+            //print number
+            track.push_back(to_string(stt_num) + " " + to_string(prime_num));
+            track.push_back(to_string(stt_num) + " " + to_string(path_num));
+            track.push_back(to_string(prime_num) + " " + to_string(path_num));
+            track_count += 3;
+        }
+        else {
+            int tp = hanoi_v[stt_num]->back();
+            hanoi_v[stt_num]->pop_back();
+            if (i % 2 == 1) {
+                hanoi_v[prime_num]->push_back(tp);
+                track.push_back(to_string(stt_num) + " " + to_string(prime_num));
+                hanoi(path_num, prime_num, stt_num, i - 1);   //print number
+            }
+            else {
+                hanoi_v[path_num]->push_back(tp);
+                track.push_back(to_string(stt_num) + " " + to_string(path_num));
+                hanoi(prime_num, stt_num, path_num, i - 1);   //print number
+            }
+            track_count++;
+        }
+        i++;
+    }
+}
+int main() {
+    int n;
+    cin >> n;
+    for (int i = n; i > 0; i--) {
+        hanoi_v[1]->push_back(i);
+    }
+    if (n == 1) { cout << "1\n1 3"; }
+    else {
+        if (n % 2 == 1) { hanoi(1, 2, 3, n); }
+        else { hanoi(1, 3, 2, n); }
+
+        cout << track_count << "\n";
+        for (int i = 0; i < track.size(); i++) {
+            cout << track[i] << "\n";
+        }
+    }
+}
