@@ -1,0 +1,18 @@
+#include <iostream>
+using namespace std;
+int fbnc(int number) {
+	if (number >= 2) {
+		return fbnc(number - 1) + fbnc(number - 2);
+	}
+	else if (number == 1) {
+		return 1;
+	}
+	else {
+		return 0;
+	}
+}
+int main() {
+    int n;
+    cin >> n;
+    cout << fbnc(n);
+}
