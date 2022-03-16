@@ -1,0 +1,53 @@
+#include <iostream>
+#include <string>
+using namespace std;
+class stack_ps {
+	int size_ps, size_sp, size_bp;
+	int* stack;
+	bool Notps;
+public:
+	stack_ps() {
+		size_ps = 0, size_sp = 0, size_bp = 0;
+		stack = new int[101];
+		Notps = false;
+	}
+	void add_sps() {
+		stack[size_ps++] = 1;		// 1 : (
+		size_sp++;
+	}
+	void add_bps() {
+		stack[size_ps++] = 2;		// 2 : [
+		size_bp++;
+	}
+	void pop_sps() {
+		size_ps--;
+		if (--size_sp < 0 || stack[size_ps] != 1) { Notps = true; }
+	}
+	void pop_bps() {
+		size_ps--;
+		if (--size_bp < 0 || stack[size_ps] != 2) { Notps = true; }
+	}
+	void print_Isps() {
+		if (Notps) { cout << "no\n"; }
+		else {
+			//cout << ((size_sp != 0) ? "no" : (size_bp != 0) ? "no" : "yes") << "\n";
+			cout << ((size_ps != 0) ? "no" : "yes") << "\n";
+		}
+		size_ps = 0, size_sp = 0, size_bp = 0;
+		Notps = false;
+	}
+};
+int main() {
+	stack_ps sps;
+	char letter;
+	char letter_prev[2] = "0";
+	while (cin.get(letter)) {
+		if (letter_prev[0] == '\n' && letter == '.') { break; }
+		else if (letter == '.') { sps.print_Isps(); stack_ps sps; continue; }
+		else if (letter == '(') { sps.add_sps(); }
+		else if (letter == ')') { sps.pop_sps(); }
+		else if (letter == '[') { sps.add_bps(); }
+		else if (letter == ']') { sps.pop_bps(); }
+		letter_prev[0] = letter;
+	}
+}
