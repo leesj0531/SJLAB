@@ -1,0 +1,78 @@
+#include <iostream>
+using namespace std;
+
+class stack {
+	int* stack_array;
+	int arr_size;
+public:
+	stack(int array_size = 10000) {
+		arr_size = array_size;
+		stack_array = new int[arr_size];
+		for (int i = 0; i < arr_size; i++) {
+			stack_array[i] = 0;
+		}
+	}
+	~stack() { delete[] stack_array; }
+	int last_index(int* array) {
+		int i = 0;
+		while (array[i] != 0) {
+			i++;
+			if (i == arr_size) {
+				cout << "Stack 메모리가 가득 찼습니다.\n";
+				return -1;
+			}
+		}
+		return i;
+	}
+	void empty() {
+		if (last_index(stack_array) == 0) cout << 1 << "\n";
+		else cout << 0 << "\n";
+	}
+	void top() {
+		int last_ind = last_index(stack_array);
+		int top_item = (last_ind == 0) ? -1 : stack_array[last_ind - 1];
+		cout << top_item << "\n";
+	}
+	void push(int X) {
+		int last_ind = last_index(stack_array);
+		stack_array[last_ind] = X;
+	}
+	void pop() {
+		int last_ind = last_index(stack_array);
+		if (last_ind == 0) cout << -1 << "\n";
+		else {
+			cout << stack_array[last_ind-1] << "\n";
+			stack_array[last_ind - 1] = 0;
+		}
+	}
+	void size() {
+		int last_ind = last_index(stack_array);
+		cout << last_ind << "\n";
+	}
+};
+int main() {
+	int iter_num, X;
+	string fname;
+	stack stk;
+
+	cin >> iter_num;
+	for (int i = 0; i < iter_num; i++) {
+		cin >> fname;
+		if (fname == "empty") {
+			stk.empty();
+		}
+		else if (fname == "top") {
+			stk.top();
+		}
+		else if (fname == "push") {
+			cin >> X;
+			stk.push(X);
+		}
+		else if (fname == "pop") {
+			stk.pop();
+		}
+		else if (fname == "size") {
+			stk.size();
+		}
+	}
+}
