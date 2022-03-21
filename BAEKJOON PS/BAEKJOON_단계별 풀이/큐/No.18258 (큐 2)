@@ -1,0 +1,77 @@
+#include <iostream>
+#include <string>
+#define MAX 2000000
+using namespace std;
+class Queue {
+	int* que_arr;
+    int first_ind;
+	int last_ind;
+public:
+	Queue(int arr_size) {
+		first_ind = 0;
+		last_ind = 0;
+		que_arr = new int[arr_size] {0};
+	}
+	~Queue() { delete[] que_arr; }
+	void enqueue(int X) {
+		que_arr[last_ind] = X;
+		last_ind = (last_ind + 1) % MAX;
+	}
+	void dequeue() {
+		if (first_ind == last_ind && isEmpty()) {
+			cout << "-1\n";
+			return;
+		}
+		cout << que_arr[first_ind] << "\n";
+		first_ind = (first_ind + 1) % MAX;
+	}
+	void size() {
+		int array_size = (first_ind == last_ind && !isEmpty()) ? MAX : last_ind - first_ind;
+		cout << array_size << "\n";
+	}
+	bool isEmpty() {
+		return ((que_arr[first_ind] == 0) ? true : false);
+	}
+	void front() {
+		if (first_ind == last_ind && isEmpty()) {
+			cout << "-1\n";
+			return;
+		}
+		cout << que_arr[first_ind] << "\n";
+	}
+	void rear() {
+		if (first_ind == last_ind && isEmpty()) {
+			cout << "-1\n";
+			return;
+		}
+		cout << que_arr[(last_ind + MAX - 1) % MAX] << "\n";
+	}
+};
+Queue que(MAX);
+int main() {
+	int case_num, X;
+	string fname;
+	cin >> case_num;
+	for (int i = 0; i < case_num; i++) {
+		cin >> fname;
+		if (fname == "size") {
+			que.size();
+		}
+		else if (fname == "empty") {
+			cout << que.isEmpty() << "\n";
+		}
+		else if (fname == "front") {
+			que.front();
+		}
+		else if (fname == "back") {
+			que.rear();
+		}
+		else if (fname == "push") {
+			cin >> X;
+			que.enqueue(X);
+		}
+		else if (fname == "pop") {
+			que.dequeue();
+		}
+	}
+}
