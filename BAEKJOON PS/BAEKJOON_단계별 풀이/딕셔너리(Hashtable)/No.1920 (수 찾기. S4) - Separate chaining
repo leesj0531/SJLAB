@@ -1,0 +1,54 @@
+#include <iostream>
+#include <list>
+#define Array_size 1000
+using namespace std;
+class Hash_array {
+	int array_size;
+	int array_capacity;
+	list<int> hash_arr[Array_size];
+public:
+	Hash_array(int arr_size = Array_size) {
+		array_size = 0;
+		array_capacity = arr_size;
+	}
+	int hashfunc(long long idx) {
+		return idx % array_capacity;
+	}
+	void separate_chaining_insert(long long original_key) {
+		long long key = abs(original_key);
+		int hash_value = hashfunc(key);	// hash_value 초기화
+		hash_arr[hash_value].push_back(original_key);
+		array_size++;
+	}
+	void separate_chaining_search(long long original_key) {
+		long long key = abs(original_key);
+		int hash_value = hashfunc(key);
+		if (hash_arr[hash_value].size() == 0) { cout << "0\n"; return; }
+		for (auto& it : hash_arr[hash_value]) {
+			if (it == original_key) { cout << "1\n"; return; }
+		}
+		cout << "0\n";
+		return;
+	}
+};
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int hash_len, search_num;
+	long long key, target_key;
+	Hash_array HashArr;
+
+	cin >> hash_len;
+	for (int j = 0; j < hash_len; j++) {
+		cin >> key;
+		HashArr.separate_chaining_insert(key);
+	}
+	cin >> search_num;
+	for (int j = 0; j < search_num; j++) {
+		cin >> target_key;
+		HashArr.separate_chaining_search(target_key);
+	}
+}
