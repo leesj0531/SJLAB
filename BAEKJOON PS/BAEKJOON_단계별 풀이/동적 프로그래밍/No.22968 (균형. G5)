@@ -1,0 +1,35 @@
+#include <iostream>
+using namespace std;
+int avl_depth[50];
+long long get_avl_depth(int num = 50) {
+	if (num == 0) {
+		return 0;
+	}
+	else if (num == 1) {
+		return 1;
+	}
+	else {
+		if (avl_depth[num] == 0) {
+			avl_depth[num] = get_avl_depth(num - 1) + get_avl_depth(num - 2) + 1;
+		}
+		return avl_depth[num];
+	}
+}
+void find_depth(int node_number, int k = 1) {
+	while (avl_depth[k] <= node_number) k++;
+	cout << k - 1 << "\n";
+}
+int main() {
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+	cout.tie(0);
+	int to_full_depth = get_avl_depth();
+
+	int iter_num, number;
+	cin >> iter_num;
+	avl_depth[1] = 1;
+	while (iter_num-- > 0) {
+		cin >> number;
+		find_depth(number);
+	}
+}
