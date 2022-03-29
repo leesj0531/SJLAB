@@ -1,77 +1,71 @@
 #include <iostream>
-#include <string>
-#define MAX 2000000
 using namespace std;
-class Queue {
-	int* que_arr;
-    int first_ind;
-	int last_ind;
+//push X : 정수 X를 큐에 넣는 연산이다.
+//pop : 큐에서 가장 앞에 있는 정수를 빼고, 그 수를 출력한다.만약 큐에 들어있는 정수가 없는 경우에는 - 1을 출력한다.
+//size : 큐에 들어있는 정수의 개수를 출력한다.
+//empty : 큐가 비어있으면 1, 아니면 0을 출력한다.
+//front : 큐의 가장 앞에 있는 정수를 출력한다.만약 큐에 들어있는 정수가 없는 경우에는 - 1을 출력한다.
+//back : 큐의 가장 뒤에 있는 정수를 출력한다.만약 큐에 들어있는 정수가 없는 경우에는 - 1을 출력한다.
+class queue {
+	int que_size;
+	int f, r;
+	int* que;
 public:
-	Queue(int arr_size) {
-		first_ind = 0;
-		last_ind = 0;
-		que_arr = new int[arr_size] {0};
+	queue(int size = 2'000'000) {
+		que_size = 0;
+		f = r = 0;
+		que = new int[size];
 	}
-	~Queue() { delete[] que_arr; }
-	void enqueue(int X) {
-		que_arr[last_ind] = X;
-		last_ind = (last_ind + 1) % MAX;
+	void push(int X) {
+		que[r] = X;
+		r++;
+		que_size++;
 	}
-	void dequeue() {
-		if (first_ind == last_ind && isEmpty()) {
-			cout << "-1\n";
-			return;
-		}
-		cout << que_arr[first_ind] << "\n";
-		first_ind = (first_ind + 1) % MAX;
+	void pop() {
+		if (empty()) { cout << "-1\n"; return; }
+		cout << que[f] << "\n";
+		f++;
+		que_size--;
 	}
 	void size() {
-		int array_size = (first_ind == last_ind && !isEmpty()) ? MAX : last_ind - first_ind;
-		cout << array_size << "\n";
+		cout << que_size << "\n";
 	}
-	bool isEmpty() {
-		return ((que_arr[first_ind] == 0) ? true : false);
+	bool empty() {
+		return que_size == 0;
 	}
 	void front() {
-		if (first_ind == last_ind && isEmpty()) {
+		if (empty()) {
 			cout << "-1\n";
-			return;
 		}
-		cout << que_arr[first_ind] << "\n";
+		else {
+			cout << que[f] << "\n";
+		}
 	}
-	void rear() {
-		if (first_ind == last_ind && isEmpty()) {
+	void back() {
+		if (empty()) {
 			cout << "-1\n";
-			return;
 		}
-		cout << que_arr[(last_ind + MAX - 1) % MAX] << "\n";
+		else {
+			cout << que[r - 1] << "\n";
+		}
 	}
 };
-Queue que(MAX);
 int main() {
-	int case_num, X;
-	string fname;
-	cin >> case_num;
-	for (int i = 0; i < case_num; i++) {
-		cin >> fname;
-		if (fname == "size") {
-			que.size();
-		}
-		else if (fname == "empty") {
-			cout << que.isEmpty() << "\n";
-		}
-		else if (fname == "front") {
-			que.front();
-		}
-		else if (fname == "back") {
-			que.rear();
-		}
-		else if (fname == "push") {
-			cin >> X;
-			que.enqueue(X);
-		}
-		else if (fname == "pop") {
-			que.dequeue();
-		}
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+	cout.tie(0);
+	int iter_num, inputX;
+	string command;
+	queue my_que;
+
+	cin >> iter_num;
+	while (iter_num-- > 0) {
+		cin >> command;
+		if (command == "push") { cin >> inputX; my_que.push(inputX); }
+		else if (command == "pop") { my_que.pop(); }
+		else if (command == "size") { my_que.size(); }
+		else if (command == "empty") { cout << my_que.empty() << "\n"; }
+		else if (command == "front") { my_que.front(); }
+		else if (command == "back") { my_que.back(); }
 	}
 }
