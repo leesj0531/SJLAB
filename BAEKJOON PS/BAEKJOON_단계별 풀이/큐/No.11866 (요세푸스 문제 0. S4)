@@ -1,0 +1,26 @@
+#include <iostream>
+using namespace std;
+int main() {
+	int size, jump;
+	cin >> size >> jump;
+	
+	int* pop_arr = new int[size]{ 0 };
+	int restore_jump, pop_index = jump - 1, size_org = size;
+	cout << "<";
+	while (size > 0) {
+		restore_jump = (size == 1) ? 1 : jump;
+		if (size == size_org) { ; }
+		else {
+			cout << ", ";
+			while (restore_jump > 0) {
+				pop_index = (pop_index + 1) % size_org;
+				if (pop_arr[pop_index] == 0) { restore_jump--; }
+			}
+		}
+		cout << pop_index + 1;
+		pop_arr[pop_index] = 1;		// visited
+		size--;
+	}
+	cout << ">";
+	return 0;
+}
