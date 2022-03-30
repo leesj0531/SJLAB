@@ -1,0 +1,67 @@
+#include <iostream>
+#include <queue>
+using namespace std;
+int main() {
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+
+	int case_num, N, M, weight;
+	cin >> case_num;
+	for (int i = 0; i < case_num; i++) {
+		cin >> N >> M;
+		
+		int wint_cnt[10]{ 0 };
+		int wlist[10]{ 0 };
+		queue<int> wque;
+    
+		int max = -1, target, target_loc;
+		for (int j = 0; j < N; j++) {
+			cin >> weight;
+			if (j == M) {
+				target = weight;
+				target_loc = wint_cnt[weight];
+			}
+			max = (max < weight) ? weight : max;
+			wint_cnt[weight]++;
+			wque.push(weight);
+		}
+
+		// 내림차순 원소 list 생성(max 추출용)
+		int index = 0;
+		for (int k = 1; k < 10; k++) {
+			if (wint_cnt[k] != 0) wlist[++index] = k;
+		}
+
+		int out_cnt = 0;
+		while (!wque.empty()) {
+			if (wque.front() == max) {		// POP MAX
+				out_cnt++;
+				if (wque.front() == target) {
+					//cout << target_loc << " <-- tloc\n";
+					if (target_loc == 0) break;
+					target_loc = (target_loc - 1 + wint_cnt[target]) % wint_cnt[target];
+				}
+				wque.pop();
+				wint_cnt[max]--;
+				//cout << max << "  " << wint_cnt[max] << " <-- max, count\n";
+				if (!wque.empty()) {
+					if (wque.front() != max) {		// MAX 갱신
+						if (wint_cnt[max] == 0) {
+							max = wlist[--index];
+						}
+					}
+				}
+			}
+			else {							// ROTATION
+				int temp = wque.front();
+				if (wque.front() == target) { 
+					//cout << target_loc << "  <------------ target rotate \n";
+					target_loc = (target_loc - 1 + wint_cnt[target]) % wint_cnt[target]; }
+				//else{ cout << temp << "  <------------- rotate\n"; }
+				wque.pop();
+				wque.push(temp);
+			}
+		}
+		cout << out_cnt << "\n";
+	}
+}
