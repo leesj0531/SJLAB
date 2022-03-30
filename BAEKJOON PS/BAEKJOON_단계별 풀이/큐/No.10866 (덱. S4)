@@ -1,0 +1,86 @@
+#include <iostream>
+using namespace std;
+//push_front X : 정수 X를 덱의 앞에 넣는다.
+//push_back X : 정수 X를 덱의 뒤에 넣는다.
+//pop_front : 덱의 가장 앞에 있는 수를 빼고, 그 수를 출력한다.만약, 덱에 들어있는 정수가 없는 경우에는 - 1을 출력한다.
+//pop_back : 덱의 가장 뒤에 있는 수를 빼고, 그 수를 출력한다.만약, 덱에 들어있는 정수가 없는 경우에는 - 1을 출력한다.
+//size : 덱에 들어있는 정수의 개수를 출력한다.
+//empty : 덱이 비어있으면 1을, 아니면 0을 출력한다.
+//front : 덱의 가장 앞에 있는 정수를 출력한다.만약 덱에 들어있는 정수가 없는 경우에는 - 1을 출력한다.
+//back : 덱의 가장 뒤에 있는 정수를 출력한다.만약 덱에 들어있는 정수가 없는 경우에는 - 1을 출력한다.
+class queue {
+	int que_size, f, r, capacity;
+	int* que;
+public:
+	queue(int size = 10'000) {
+		que_size = 0;
+		capacity = size;
+		f = r = 0;
+		que = new int[capacity];
+	}
+	void push_front(int X) {
+		f = (f - 1 + capacity) % capacity;
+		que[f] = X;
+		que_size++;
+	}
+	void push_back(int X) {
+		que[r] = X;
+		r = (r + 1) % capacity;
+		que_size++;
+	}
+	void pop_front() {
+		if (empty()) { cout << "-1\n"; return; }
+		cout << que[f] << "\n";
+		f = (f + 1) % capacity;
+		que_size--;
+	}
+	void pop_back() {
+		if (empty()) { cout << "-1\n"; return; }
+		r = (r - 1 + capacity) % capacity;
+		cout << que[r] << "\n";
+		que_size--;
+	}
+	void size() {
+		cout << que_size << "\n";
+	}
+	bool empty() {
+		return que_size == 0;
+	}
+	void front() {
+		if (empty()) {
+			cout << "-1\n";
+		}
+		else {
+			cout << que[f] << "\n";
+		}
+	}
+	void back() {
+		if (empty()) {
+			cout << "-1\n";
+		}
+		else {
+			cout << que[(r - 1 + capacity) % capacity] << "\n";
+		}
+	}
+};
+int main() {
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+	cout.tie(0);
+	int iter_num, inputX;
+	string command;
+	queue my_que;
+
+	cin >> iter_num;
+	while (iter_num-- > 0) {
+		cin >> command;
+		if (command == "push_front") { cin >> inputX; my_que.push_front(inputX); }
+		else if (command == "push_back") { cin >> inputX; my_que.push_back(inputX); }
+		else if (command == "pop_front") { my_que.pop_front(); }
+		else if (command == "pop_back") { my_que.pop_back(); }
+		else if (command == "size") { my_que.size(); }
+		else if (command == "empty") { cout << my_que.empty() << "\n"; }
+		else if (command == "front") { my_que.front(); }
+		else if (command == "back") { my_que.back(); }
+	}
+}
