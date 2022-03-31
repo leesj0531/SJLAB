@@ -1,0 +1,117 @@
+#include <iostream>
+using namespace std;
+//1. 첫 번째 원소를 뽑아낸다.이 연산을 수행하면, 원래 큐의 원소가 a1, ..., ak이었던 것이 a2, ..., ak와 같이 된다.
+//2. 왼쪽으로 한 칸 이동시킨다.이 연산을 수행하면, a1, ..., ak가 a2, ..., ak, a1이 된다.
+//3. 오른쪽으로 한 칸 이동시킨다.이 연산을 수행하면, a1, ..., ak가 ak, a1, ..., ak - 1이 된다.
+struct node {
+   int key;
+   node* next;
+   node* prev;
+};
+class rotate_que {
+   int que_size, rot_cnt;
+   node* head;
+   node* tail;
+public:
+   rotate_que(int size) {
+      que_size = size;
+      rot_cnt = 0;
+      node* start_node = new node;
+      start_node->key = 1;
+      start_node->prev = nullptr;
+      head = start_node;
+
+      while (size-- > 1) {
+         node* new_node = new node;
+         start_node->next = new_node;
+         new_node->key = que_size - size + 1;
+         new_node->prev = start_node;
+         start_node = new_node;
+      }
+      start_node->next = nullptr;
+      tail = start_node;
+   }
+   void pop_front() {      // empty 예외 없음.
+      //cout << head->key << " <-- pop \n";
+      node* del_node = head;
+      if (del_node->next != nullptr) {
+         del_node->next->prev = nullptr;
+         head = del_node->next;
+      }
+      else {
+         head = tail = nullptr;
+      }
+      delete del_node;
+      que_size--;
+   }
+   void move_left() {
+      node* move_node = head;      // 기존 head 할당
+      head = move_node->next;      // new head 갱신
+      head->prev = nullptr;      // new head prev = null
+      
+      move_node->prev = tail;      // 기존 head를 tail 뒤로 삽입
+      tail->next = move_node;
+      tail = move_node;         // new tail 갱신
+      move_node->next = nullptr;   // new tail next = null
+      rot_cnt++;
+      //cout << head->key << "  " << tail->key << " <------- Left move.  head  tail \n";
+   }
+   void move_right() {
+      node* move_node = tail;      // 기존 tail 할당
+      tail = move_node->prev;      // new tail 갱신
+      tail->next = nullptr;      // new tail next = null
+
+      move_node->next = head;      // 기존 tail을 head 뒤로 삽입
+      head->prev = move_node;
+      head = move_node;         // new head 갱신
+      move_node->prev = nullptr;   // new head prev = null
+      rot_cnt++;
+      //cout << head->key << "  " << tail->key << " <------ Right move.  head  tail \n";
+   }
+   int find_direction(int key) {
+      node* finder = head->next;
+      int cnt = 1;
+      while (finder->next != nullptr) {
+         if (finder->key == key) break;
+         finder = finder->next;
+         cnt++;
+      }
+      return (cnt <= que_size / 2) ? 1 : 0;   // left : 1,  right : 0
+   }
+   void pop_target(int key) {
+      node* finder = head;
+      if (finder->key == key) { pop_front(); }
+      else {
+         if (find_direction(key)) {
+            while (finder->key != key) {
+               move_left();
+               finder = head;
+            }
+         }
+         else {
+            while (finder->key != key) {
+               move_right();
+               finder = head;
+            }
+         }
+         pop_front();
+      }
+   }
+   void print_cnt() {
+      cout << rot_cnt;
+   }
+};
+int main() {
+   ios_base::sync_with_stdio(0);
+   cin.tie(0);
+   cout.tie(0);
+
+   int N, M, item;
+   cin >> N >> M;
+   rotate_que my_que(N);
+   while (M-- > 0) {
+      cin >> item;
+      my_que.pop_target(item);
+   }
+   my_que.print_cnt();
+}
