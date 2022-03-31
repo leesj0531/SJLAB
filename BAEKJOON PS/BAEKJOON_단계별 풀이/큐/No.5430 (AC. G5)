@@ -1,0 +1,109 @@
+#include <iostream>
+#include <string>
+using namespace std;
+struct node {
+	int key;
+	node* next;
+	node* prev;
+};
+class de_que {
+	int is_reversed, is_error;
+	node* head;
+	node* tail;
+public:
+	de_que(int size) {
+		is_reversed = is_error = 0;
+		head = tail = nullptr;
+	}
+	void push(int key) {
+		node* new_node = new node;
+		new_node->key = key;
+		new_node->next = nullptr;
+		if (head != nullptr) {
+			new_node->prev = tail;
+			tail->next = new_node;
+		}
+		else {
+			new_node->prev = nullptr;
+			head = new_node;
+		}
+		tail = new_node;
+	}
+	bool empty() { return (head != nullptr) ? 0 : 1; }
+	void pop_front() {
+		if (empty()) { is_error = 1; return; }		// 1 : error 발생
+		node* del_node = new node;
+		if (head->next == nullptr) {
+			del_node = head;
+			head = tail = nullptr;
+		}
+		else {
+			if (is_reversed) {
+				del_node = tail;
+				del_node->prev->next = nullptr;
+				tail = del_node->prev;
+			}
+			else {
+				del_node = head;
+				del_node->next->prev = nullptr;
+				head = del_node->next;
+			}
+		}
+		delete del_node;
+	}
+	void reverse() { is_reversed = (is_reversed + 1) % 2; }
+	void print() {
+		if (is_error) { cout << "error\n"; return; }
+		node* iter_node = new node;
+		cout << "[";
+		if (!empty()) {
+			if (is_reversed) {
+				iter_node = tail;
+				while (iter_node->prev != nullptr) {
+					cout << iter_node->key << ",";
+					iter_node = iter_node->prev;
+				}
+				cout << iter_node->key;
+			}
+			else {
+				iter_node = head;
+				while (iter_node->next != nullptr) {
+					cout << iter_node->key << ",";
+					iter_node = iter_node->next;
+				}
+				cout << iter_node->key;
+			}
+		}
+		cout << "]\n";
+	}
+};
+int main() {
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+	cout.tie(0);
+
+	int case_num, arr_size, arr_item;
+	string command, arr_string, sub_int_string;
+	cin >> case_num;
+	for (int i = 0; i < case_num; i++) {
+		cin >> command >> arr_size >> arr_string;
+		de_que my_que(arr_size);
+		int is_error = 0;
+		for (int j = 1; j < arr_string.length(); j++) {
+			if (arr_string[j] == ',' || arr_string[j] == ']') {
+				if (sub_int_string.length() == 0) continue;
+				arr_item = stoi(sub_int_string);
+				my_que.push(arr_item);
+				sub_int_string = "";
+			}
+			else {
+				sub_int_string += arr_string[j];
+			}
+		}
+		for (int k = 0; k < command.length(); k++) {
+			if (command[k] == 'R') my_que.reverse();
+			else if (command[k] == 'D') my_que.pop_front();
+		}
+		my_que.print();
+	}
+}
