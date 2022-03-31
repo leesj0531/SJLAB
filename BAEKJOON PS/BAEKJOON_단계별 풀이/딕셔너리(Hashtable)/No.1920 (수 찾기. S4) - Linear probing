@@ -1,0 +1,67 @@
+#include <iostream>
+#define Array_size 104729 // prime number
+using namespace std;
+int HashArr[Array_size];
+class Hash_array {
+	int array_size;
+	int array_capacity;
+public:
+	Hash_array(int arr_size = Array_size) {
+		array_size = 0;
+		array_capacity = arr_size;
+	}
+	int hashfunc(long long idx) {
+		return idx % array_capacity;
+	}
+	int hashfunc2(long long idx, int prime = 1109) {
+		return prime - (idx % prime);
+	}
+	void linear_probing_insert(long long original_key) {
+		long long key = abs(original_key);
+		int hash_value = hashfunc(key);	// hash_value 초기화
+		int hash_value2 = hashfunc2(key);
+		while (HashArr[hash_value] != 0) {		// O(n) time
+			if (HashArr[hash_value] == original_key) return;
+			hash_value = hashfunc(hash_value + hash_value2);
+		}
+		HashArr[hash_value] = original_key;
+		array_size++;
+	}
+	void linear_probing_search(long long original_key) {
+		long long key = abs(original_key);
+		int probe_count = 1;
+		int hash_value = hashfunc(key);
+		int hash_value2 = hashfunc2(key);
+		if (HashArr[hash_value] == 0) { cout << "0\n"; return; }
+		else if (HashArr[hash_value] == original_key) { cout << "1\n"; return; }
+		else {
+			while (HashArr[hash_value] != original_key) {
+				hash_value = hashfunc(hash_value + hash_value2);
+				probe_count++;
+				if (HashArr[hash_value] == 0 || probe_count > array_size) { cout << "0\n"; return; }
+			}
+			cout << "1\n";
+		}
+	}
+};
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int hash_len, search_num;
+	long long key, target_key;
+	Hash_array HashArr;
+
+	cin >> hash_len;
+	for (int j = 0; j < hash_len; j++) {
+		cin >> key;
+		HashArr.linear_probing_insert(key);
+	}
+	cin >> search_num;
+	for (int j = 0; j < search_num; j++) {
+		cin >> target_key;
+		HashArr.linear_probing_search(target_key);
+	}
+}
