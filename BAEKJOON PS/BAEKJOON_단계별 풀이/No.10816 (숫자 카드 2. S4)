@@ -1,1 +1,23 @@
+#include <iostream>
+using namespace std;
+int arr_cntm[10'000'001];
+int arr_cntp[10'000'001];
+int main() {
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+	cout.tie(0);
 
+	int N, M, card_num, search_num;
+	cin >> N;
+	for (int i = 0; i < N; i++) {
+		cin >> card_num;
+		if (card_num < 0) arr_cntm[abs(card_num)]++;
+		else arr_cntp[card_num]++;
+	}
+	cin >> M;
+	for (int j = 0; j < M; j++) {
+		cin >> search_num;
+		if (search_num < 0) { cout << arr_cntm[abs(search_num)] << " "; }
+		else { cout << arr_cntp[search_num] << " "; }
+	}
+}
