@@ -1,0 +1,26 @@
+#include <iostream>
+using namespace std;
+void get_min_comb(int div, int mod, int org_N) {
+	if (mod % 3 == 0) {
+		cout << div + (mod / 3);
+	}
+	else {
+		while (div >= 0) {
+			div -= 1;
+			mod = org_N - div * 5;
+			if (mod % 3 == 0) break;
+		}
+		if (div < 0) { cout << -1; }
+		else { cout << div + (mod / 3); }
+	}
+}
+int main() {
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+
+	int N, div5, mod5;
+	cin >> N;
+	div5 = N / 5;
+	mod5 = N % 5;
+	get_min_comb(div5, mod5, N);
+}
