@@ -1,0 +1,15 @@
+#include <iostream>
+#include <map>
+using namespace std;
+map<long long, int> card;
+int main() {
+	int cnum;
+	long long card_num, max_num = 0;
+	cin >> cnum;
+	for (int i = 0; i < cnum; i++) {
+		cin >> card_num;
+		card[card_num]++;
+		max_num = (card[max_num] == card[card_num]) ? min(max_num, card_num) : (card[max_num] > card[card_num]) ? max_num : card_num;
+	}
+	cout << max_num;
+}
