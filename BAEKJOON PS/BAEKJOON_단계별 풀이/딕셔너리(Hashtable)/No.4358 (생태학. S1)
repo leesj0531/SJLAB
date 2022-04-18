@@ -1,0 +1,23 @@
+#include <iostream>
+#include <map>
+using namespace std;
+map<string, int> stree;
+int main() {
+	char spcs[31];
+	int cnt = 0;
+	
+	while (1) {
+		cin.getline(spcs, sizeof(spcs));
+		//cin >> noskipws >> spcs;
+		if (cin.eof()) break;
+		stree[spcs] = stree[spcs] + 1;
+		cnt++;
+	}
+	cout << fixed;
+	cout.precision(4);
+	auto iter = stree.begin();
+	while (iter != stree.end()) {
+		pair<string, int> temp = *iter++;
+		cout << temp.first << " " << double(temp.second) / double(cnt) * double(100) << "\n";
+	}
+}
