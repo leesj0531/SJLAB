@@ -1,0 +1,22 @@
+#include <iostream>
+#include <map>
+using namespace std;
+map<char, string> cpair;
+int main() {
+	char clist[13] = { 'A', 'B', 'E', 'K', 'M','H','O','P','C','T','Y','X' };
+	for (auto& item : clist) {
+		if (item == 'B') cpair[item] = 'v';
+		else if (item == 'E') cpair[item] = "ye";
+		else if (item == 'H') cpair[item] = 'n';
+		else if (item == 'P') cpair[item] = 'r';
+		else if (item == 'C') cpair[item] = 's';
+		else if (item == 'Y') cpair[item] = 'u';
+		else if (item == 'X') cpair[item] = 'h';
+		else cpair[item] = char(item + 32);
+	}
+	string input_c;
+	cin >> input_c;
+	for (int i = 0; i < input_c.length(); i++) {
+		cout << cpair[input_c[i]];
+	}
+}
