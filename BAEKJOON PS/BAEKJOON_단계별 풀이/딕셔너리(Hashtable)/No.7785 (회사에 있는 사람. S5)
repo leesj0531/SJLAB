@@ -1,0 +1,23 @@
+#include <iostream>
+#include <queue>
+#include <map>
+using namespace std;
+map<string, int, greater<string>> pmap;
+int isIn_or_Out[1000001];
+int main() {
+	int pnum, cnt = 0;
+	string input_c, state;
+	cin >> pnum;
+	for (int i = 0; i < pnum; i++) {
+		cin >> input_c >> state;
+		if (!pmap[input_c]) {
+			pmap[input_c] = cnt++;
+		}
+		isIn_or_Out[pmap[input_c]] = (state[0] == 'l') ? 0 : 1;
+	}
+	auto iter = pmap.begin();
+	while (iter != pmap.end()) {
+		input_c = (*iter++).first;
+		if (isIn_or_Out[pmap[input_c]]) cout << input_c << "\n";
+	}
+}
