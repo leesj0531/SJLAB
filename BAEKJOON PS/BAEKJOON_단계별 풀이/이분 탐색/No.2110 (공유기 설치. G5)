@@ -1,0 +1,39 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+int wifi_array[200001];
+void naive_optimal_dist(int front, int rear, int arr_size, int wifi_num) {
+	if (rear - front < 2) {
+		cout << front;
+	}
+	else {
+		int cur_dist, cur_ind = 0, prev_ind = 0, cnt = 2, mid = (rear + front) / 2;		// index, visit 전부 1에서 시작.(visit : while조건으로 +1)
+		while (cur_ind++ < arr_size) {
+			cur_dist = wifi_array[cur_ind] - wifi_array[prev_ind];
+			if (cur_dist >= mid) {		// mid로 비교
+				prev_ind = cur_ind;
+				cnt++;
+			}
+		}
+		if (--cnt >= wifi_num) {	// last index cnt 1 감소
+			cout << cnt << ", " << mid << " <-- mid. case1\n";
+			naive_optimal_dist(mid, rear, arr_size, wifi_num);
+		}
+		else {		// cnt < wifi_num
+			cout << cnt << ", " << mid << " <-- mid. case2\n";
+			naive_optimal_dist(front, mid, arr_size, wifi_num);
+		}
+	}
+}
+int main() {
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+
+	int N, C;
+	cin >> N >> C;
+	for (int i = 0; i < N; i++) cin >> wifi_array[i];
+	sort(wifi_array, wifi_array + N);
+
+	if (C == 2) cout << wifi_array[N - 1] - wifi_array[0];
+	else naive_optimal_dist(1, wifi_array[N - 1] - wifi_array[0], N, C);
+}
