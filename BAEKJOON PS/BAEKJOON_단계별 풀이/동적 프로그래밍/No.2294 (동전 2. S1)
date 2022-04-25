@@ -1,0 +1,36 @@
+#include <iostream>
+using namespace std;
+int coin_visit[10001];		// 최대 K
+int coin_dp[100001];		// 최대 max input number
+bool is_false = 0;
+int min_combination(int value) {
+	// TOP-DOWN
+	if (coin_dp[value] != 0) {
+		return coin_dp[value];
+	}
+	else {
+		if (!coin_visit[value]) coin_visit[value] = 1;
+		else { coin_dp[value] = 10001; return 10001; }
+		
+		int min_comb = 10001;
+		for (int z = 1; z <= (value / 2); z++) {
+			min_comb = min(min_comb, min_combination(z) + min_combination(value - z));
+		}
+		coin_dp[value] = min_comb;
+		return min_comb;
+	}
+}
+int main() {
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+
+	int n, k, coin, ans;
+	cin >> n >> k;
+	for (int i = 0; i < n; i++) {
+		cin >> coin;
+		coin_dp[coin] = 1;
+	}
+	coin_dp[1] = (!coin_dp[1]) ? 10001 : 1;
+	ans = min_combination(k);
+	cout << ((ans > 10000) ? -1 : ans);
+}
