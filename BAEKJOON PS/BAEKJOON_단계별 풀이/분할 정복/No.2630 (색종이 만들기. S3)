@@ -1,0 +1,29 @@
+#include <iostream>
+using namespace std;
+int cpaper[128][128];
+int white_cnt = 0, blue_cnt = 0;
+void dv_cq_paper(int N, int up, int left) {
+	// Calculate Summation
+	int sum = 0;
+	for (int i = up; i < up + N; i++)
+		for (int j = left; j < left + N; j++)
+			sum += cpaper[i][j];
+	if (sum == 0) white_cnt++;
+	else if (sum == N * N) blue_cnt++;
+	else {
+		int up_list[2] = { up, up + (N / 2) };
+		int left_list[2] = { left, left + (N / 2) };
+		for (auto& upit : up_list)
+			for (auto& leftit : left_list)
+				dv_cq_paper(N / 2, upit, leftit);
+	}
+}
+int main() {
+	int N;
+	cin >> N;
+	for (int i = 0; i < N; i++)
+		for (int j = 0; j < N; j++)
+			cin >> cpaper[i][j];
+	dv_cq_paper(N, 0, 0);
+	cout << white_cnt << "\n" << blue_cnt;
+}
