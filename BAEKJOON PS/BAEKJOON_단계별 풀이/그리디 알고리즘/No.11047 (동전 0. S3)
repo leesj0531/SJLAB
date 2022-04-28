@@ -1,0 +1,23 @@
+#include <iostream>
+#include <stack>
+using namespace std;
+stack<int> coin;
+int main() {
+	int N, K, coin_type, sum = 0;
+	cin >> N >> K;
+	while (N-- > 0) {
+		cin >> coin_type;
+		coin.push(coin_type);
+	}
+	int target = K;
+	while (!coin.empty()) {
+		sum += K / coin.top();
+		K %= coin.top();
+		coin.pop();
+		if (K == 0) {
+			cout << sum;
+			return 0;
+		}
+	}
+	cout << -1;
+}
