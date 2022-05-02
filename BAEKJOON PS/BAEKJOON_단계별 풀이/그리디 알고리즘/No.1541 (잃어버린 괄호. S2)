@@ -1,0 +1,32 @@
+#include <iostream>
+#include <string>
+using namespace std;
+int main() {
+	int pre_idx = 0, ans = 0, is_minus = 0;
+	string input_s;
+	cin >> input_s;
+	for (int i = 0; i < input_s.size(); i++) {
+		if (int(input_s[i]) < 47) {			// 숫자 아닌 경우
+			if (int(input_s[i]) == 45) {	// -
+				if (is_minus) {
+					ans -= stoi(input_s.substr(pre_idx, i - pre_idx));
+				}
+				else {
+					is_minus = 1;
+					ans += stoi(input_s.substr(pre_idx, i - pre_idx));
+				}
+			}
+			else {		// +
+				if (is_minus) {
+					ans -= stoi(input_s.substr(pre_idx, i - pre_idx));
+				}
+				else {
+					ans += stoi(input_s.substr(pre_idx, i - pre_idx));
+				}
+			}
+			pre_idx = i + 1;
+		}
+	}
+	ans = (is_minus) ? ans - stoi(input_s.substr(pre_idx)) : ans + stoi(input_s.substr(pre_idx));
+	cout << ans;
+}
