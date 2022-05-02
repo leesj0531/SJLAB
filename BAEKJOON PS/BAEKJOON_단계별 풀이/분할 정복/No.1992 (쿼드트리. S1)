@@ -1,0 +1,35 @@
+## 문제 링크
+## https://www.acmicpc.net/problem/1992
+
+#include <iostream>
+#include <string>
+using namespace std;
+int map[65][65];
+void quad_tree_out(int size, int up, int left) {	// loc 0 : lu,  loc 1 : ru,  loc 2 : ld,  loc3 : rd
+	int sum = 0;
+	for (int i = up; i < up + size; i++)
+		for (int j = left; j < left + size; j++)
+			sum += map[i][j];
+	if (sum == 0) cout << "0";
+	else if (sum == size * size) cout << "1";
+	else {
+		cout << "(";
+		size /= 2;
+		quad_tree_out(size, up, left);
+		quad_tree_out(size, up, left + size);
+		quad_tree_out(size, up + size, left);
+		quad_tree_out(size, up + size, left + size);
+		cout << ")";
+	}
+}
+int main() {
+	int N, key;
+	string s_int;
+	cin >> N;
+	for (int i = 0; i < N; i++) {
+		cin >> s_int;
+		for (int j = 0; j < N; j++)
+			map[i][j] = int(s_int[j] - '0');
+	}
+	quad_tree_out(N, 0, 0);
+}
