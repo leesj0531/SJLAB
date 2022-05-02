@@ -1,0 +1,25 @@
+#include <iostream>
+using namespace std;
+int city[100001];
+int main() {
+	int iter_num;
+	long long value, temp_min, cnt = 0, ans = 0;
+	// city distance
+	cin >> iter_num;
+	for(int i=1; i<iter_num; i++) cin >> city[i];
+	// oil
+	cin >> temp_min;
+	for(int i=1; i<iter_num; i++) {
+		cin >> value;
+		
+		cnt += city[i];
+		if(value < temp_min) {
+			ans += cnt * temp_min;
+			
+			temp_min = value;
+			cnt = 0;
+		}
+	}
+	if (cnt != 0) cout << ans + cnt * temp_min;
+	else cout << ans;
+}
