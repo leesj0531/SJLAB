@@ -1,0 +1,38 @@
+## 문제 link : https://www.acmicpc.net/problem/24480
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+int visit[100001];
+int visit_rank[100001];
+int cnt = 1;
+vector<int> edge[100001];
+void DFS(int vertex) {
+	visit[vertex] = 1;
+	visit_rank[vertex] = cnt++;
+	sort(edge[vertex].begin(), edge[vertex].end(), greater<>());
+	for (auto& it : edge[vertex]) {
+		if (!visit[it]) {
+			DFS(it);
+		}
+	}
+}
+int main() {
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+
+	int N, M, R, v1, v2;
+	cin >> N >> M >> R;
+
+	//int* visit_rank = new int[N + 1];
+	while (M--) {
+		cin >> v1 >> v2;
+		edge[v1].push_back(v2);
+		edge[v2].push_back(v1);
+	}
+	DFS(R);
+	for (int i = 1; i <= N; i++) {
+		cout << visit_rank[i] << "\n";
+	}
+}
