@@ -1,0 +1,43 @@
+## 문제 link : https://www.acmicpc.net/problem/24444
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <queue>
+using namespace std;
+int cnt = 1;
+int visit[100001];
+int visit_rank[100001];
+vector<int> edge[100001];
+void BFS(int start_v) {
+	int key;
+	queue<int> q;
+	q.push(start_v);
+	visit[start_v] = 1;
+	while (!q.empty()) {
+		key = q.front();
+		visit_rank[key] = cnt++;
+		q.pop();
+		sort(edge[key].begin(), edge[key].end());
+		for (auto& it : edge[key]) {
+			if (!visit[it]) {
+				visit[it] = 1;
+				q.push(it);
+			}
+		}
+	}
+}
+int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    
+	int N, M, R, v1, v2;
+	cin >> N >> M >> R;
+	while (M-- > 0) {
+		cin >> v1 >> v2;
+		edge[v1].push_back(v2);
+		edge[v2].push_back(v1);
+	}
+	BFS(R);
+	for (int i = 1; i <= N; i++) cout << visit_rank[i] << "\n";
+}
