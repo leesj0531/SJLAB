@@ -1,0 +1,41 @@
+## 문제 link : https://www.acmicpc.net/problem/2606
+
+#include <iostream>
+#include <vector>
+#include <queue>
+using namespace std;
+int visit[101];
+vector<int> edge[5001];
+int main() {
+	int cpu_num, edge_num, v1, v2, cnt = 0;
+	cin >> cpu_num >> edge_num;
+	while (edge_num-- > 0) {
+		cin >> v1 >> v2;
+		edge[v1].push_back(v2);
+		edge[v2].push_back(v1);
+	}
+	// BFS
+	if (edge[1].empty()) cout << 0;
+	else {
+		visit[1] = 1;
+		cnt += edge[1].size();
+		queue<int> q;
+		for (auto& it : edge[1]) {
+			visit[it] = 1;
+			q.push(it);
+		}
+		int stt;
+		while (!q.empty()) {
+			stt = q.front();
+			q.pop();
+			for (auto it : edge[stt]) {
+				if (!visit[it]) {
+					visit[it] = 1;
+					cnt++;
+					q.push(it);
+				}
+			}
+		}
+		cout << cnt;
+	}
+}
