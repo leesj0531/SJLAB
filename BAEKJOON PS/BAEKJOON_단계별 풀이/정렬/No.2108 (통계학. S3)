@@ -1,0 +1,36 @@
+## 문제 link : https://www.acmicpc.net/problem/2108
+
+#include <iostream>
+#include <algorithm>
+#include <cmath>
+#include <vector>
+using namespace std;
+int arr[500001];
+int main() {
+	int iter_num, key, sum = 0;
+	cin >> iter_num;
+	for (int i = 0; i < iter_num; i++) {
+		cin >> key;
+		arr[i] = key;
+		sum += key;
+	}
+	sort(arr, arr + iter_num);
+	// 최빈값 찾기
+	int lo_idx = 0, up_idx = 0, temp_mod_max = 0, mod_max = 0;
+	vector<int> mod_value;
+	while (up_idx < iter_num) {
+		lo_idx = lower_bound(arr, arr + iter_num, arr[up_idx]) - arr;
+		up_idx = upper_bound(arr, arr + iter_num, arr[up_idx]) - arr;
+		temp_mod_max = up_idx - lo_idx;
+		if (mod_max == temp_mod_max) {
+			mod_value.push_back(arr[lo_idx]);
+		}
+		if (mod_max < temp_mod_max) {
+			mod_value.clear();
+			mod_value.push_back(arr[lo_idx]);
+			mod_max = temp_mod_max;
+		}
+	}
+	int mod_2nd = (mod_value.size() > 1) ? mod_value[1] : mod_value[0];
+	cout << floor(double(sum) / double(iter_num) + 0.5) << "\n" << arr[iter_num / 2] << "\n" << mod_2nd << "\n" << arr[iter_num - 1] - arr[0];
+}
