@@ -1,0 +1,59 @@
+#include <iostream>
+#include <memory.h>
+#include <vector>
+#include <queue>
+using namespace std;
+## 문제 링크 : https://www.acmicpc.net/problem/1707
+
+int not_bi_graph;
+int visit[20001];
+vector<int> edge[200001];
+void is_bipartite(int start_node) {
+	queue<int> q;
+	q.push(start_node);
+	visit[start_node] = 1;
+	while (!q.empty()) {
+		int key = q.front();
+		int current_color = visit[key];
+		int bi_color = (current_color == 1) ? 2 : 1;
+		q.pop();
+		for (auto& it : edge[key]) {
+			if (visit[it] == 0) {
+				visit[it] = bi_color;
+				q.push(it);
+			}
+			else if (visit[it] == current_color) {
+				not_bi_graph = 1;
+				return;
+			}
+		}
+	}
+}
+void reset_ve(int e_num, int v_num) {
+	for (int i = 0; i <= v_num; i++) {
+		edge[i].clear();
+		visit[i] = 0;
+	}
+	not_bi_graph = 0;
+}
+int main() {
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+
+	int case_num, v_num, e_num, v1, v2;
+	cin >> case_num;
+	while (case_num--) {
+		cin >> v_num >> e_num;
+		for (int i = 0; i < e_num; i++) {
+			cin >> v1 >> v2;
+			edge[v1].push_back(v2);
+			edge[v2].push_back(v1);
+		}
+		for (int i = 1; i <= v_num; i++) {
+			if (not_bi_graph) break;
+			else if (visit[i] == 0) is_bipartite(i);
+		}
+		cout << ((not_bi_graph) ? "NO\n" : "YES\n");
+		reset_ve(e_num, v_num);
+	}
+}
