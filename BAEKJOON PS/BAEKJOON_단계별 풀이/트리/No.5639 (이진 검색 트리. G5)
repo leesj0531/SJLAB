@@ -1,0 +1,69 @@
+## 문제 링크 : https://www.acmicpc.net/problem/5639
+
+#include <iostream>
+using namespace std;
+int is_right = 0;
+struct node {
+    int key;
+    node* p = nullptr;
+    node* left = nullptr;
+    node* right = nullptr;
+};
+class binary_tree {
+    node* root;
+public:
+    binary_tree(int key) {
+        root = new node;
+        root->key = key;
+    }
+    node* get_root() {
+        return root;
+    }
+    void up_node(node* pnode, node* finder, node* current) {
+        if (finder->right == nullptr) {
+            pnode = finder;
+        }
+        if (finder->p != nullptr && finder->p->key < current->key) {
+            up_node(pnode, finder->p, current);
+        }
+        else {
+            current->p = pnode;
+            pnode->right = current;
+        }
+    }
+    node* add_node(node* prev_node, int input_key) {
+        node* new_node = new node;
+        new_node->key = input_key;
+        if (input_key < prev_node->key) {
+            new_node->p = prev_node;
+            prev_node->left = new_node;
+        }
+        else {
+            up_node(prev_node, prev_node, new_node);
+            if (is_right) {
+                new_node->p = prev_node;
+                prev_node->right = new_node;
+                is_right = 0;
+            }
+        }
+        return new_node;
+    }
+    void post_traversal(node* finder) {
+        if (finder->left != nullptr)
+            post_traversal(finder->left);
+        if (finder->right != nullptr)
+            post_traversal(finder->right);
+        cout << finder->key << "\n";
+    }
+};
+int main() {
+    int key;
+    cin >> key;
+    binary_tree mtree(key);
+    node* start_node = mtree.get_root();
+    while (cin >> key) {
+        start_node = mtree.add_node(start_node, key);
+    }
+    start_node = mtree.get_root();
+    mtree.post_traversal(start_node);
+}
