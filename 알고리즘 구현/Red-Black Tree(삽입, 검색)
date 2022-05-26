@@ -16,7 +16,7 @@ struct rb_node {
     bool is_black = 0;  // Red or Black
     bool is_left_child = 0;
     int key;
-    int b_depth = 0;   // Black node Depth
+    // int b_depth = 0;   // Black node Depth
     rb_node* p = nullptr; rb_node* lchild = nullptr; rb_node* rchild = nullptr;
 };
 class RedBlack_Tree {
@@ -27,7 +27,7 @@ public:
     RedBlack_Tree(int key) {
         node_count = 0;
         root = new rb_node;
-        root->key = key; root->is_black = 1; root->b_depth = 1;
+        root->key = key; root->is_black = 1; // root->b_depth = 1;
     }
     rb_node* get_root() { return root; }
     void Restructuring(rb_node* t) {
