@@ -229,6 +229,7 @@ public:
         }
     }
     void insert_node(int key) {
+        node_count++;
         rb_node* finder = get_node_loc(key);
         rb_node* new_node = new rb_node;
         if (finder->key < key) {
