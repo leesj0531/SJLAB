@@ -1,0 +1,259 @@
+'''
+==========================================================================================
+    * Red-Black 트리 삽입 및 검색(전위순회) 구현.
+    * 입력
+        1st line : 테스트 할 횟수(트리 개수)
+        2nd line : 삽입할 노드 개수
+        3rd ~    : 삽입 key(정수)
+        삽입 완료(2nd line 개수 만큼 입력 후) 테스트 횟수가 남았다면, 다시 1st line으로.
+    * 출력
+        매 삽입 이후 전위순회 결과 + Node color
+==========================================================================================
+'''
+#include <iostream>
+using namespace std;
+struct rb_node {
+    bool is_black = 0;  // Red or Black
+    bool is_left_child = 0;
+    int key;
+    int b_depth = 0;   // Black node Depth
+    rb_node* p = nullptr; rb_node* lchild = nullptr; rb_node* rchild = nullptr;
+};
+class RedBlack_Tree {
+private:
+    int node_count;
+    rb_node* root;
+public:
+    RedBlack_Tree(int key) {
+        node_count = 0;
+        root = new rb_node;
+        root->key = key; root->is_black = 1; root->b_depth = 1;
+    }
+    rb_node* get_root() { return root; }
+    void Restructuring(rb_node* t) {
+        if (t->p->is_left_child) {                    // p : left
+            // Case 1. Single rotation (／)
+            if (t->is_left_child) {                   // t : left
+                cout << "case 1 occur!\n";
+                t->p->is_black = 1;
+                t->p->p->is_black = 0;
+                // t.p 오른자식 있다면 !!!!!
+                if (t->p->rchild != nullptr) {
+                    // t.p 오른자식 부모 = t.p.p
+                    t->p->rchild->p = t->p->p;
+                    // t.p.p 왼자식 = t.p 오른자식
+                    t->p->rchild->is_left_child = 1;
+                    t->p->p->lchild = t->p->rchild;
+                }
+                else {
+                    t->p->p->lchild = nullptr;
+                }
+                // t.p 오른자식 = t.p.p
+                t->p->rchild = t->p->p;
+                // 부모노드 변경
+                if (t->p->p->p != nullptr) {
+                    // Great great parent
+                    rb_node* ancestor = t->p->p->p;
+                    if (t->p->p->is_left_child) {
+                        ancestor->lchild = t->p;
+                        t->p->is_left_child = 1;
+                    }
+                    else {
+                        ancestor->rchild = t->p;
+                        t->p->is_left_child = 0;
+                    }
+                    t->p->p = ancestor;
+                }
+                else {
+                    t->p->p = nullptr;
+                    root = t->p;
+                }
+                t->p->rchild->p = t->p;
+                t->p->rchild->is_left_child = 0;
+            }
+            // Case 2. Double rotation (〈 )
+            else {                                  // t : right
+                cout << "case 2 occur!\n";
+                // t.p 왼자식 있다면 !!!!!
+                if (t->lchild != nullptr) {
+                    // t 왼자식 부모 = t.p
+                    t->lchild->p = t->p;
+                    // t.p 오른자식 = t 왼자식
+                    t->lchild->is_left_child = 0;
+                    t->p->rchild = t->lchild;
+                }
+                else {
+                    t->p->rchild = nullptr;
+                }
+                // t 왼자식 = t 부모
+                t->lchild = t->p;
+                // t.p.p 왼자식 = t
+                t->is_left_child = 1;
+                t->p->p->lchild = t;
+                // 부모 노드 연결
+                rb_node* gp = t->p->p;
+                t->p->p = t;
+                t->p = gp;
+                // Go to Case 1. (Single rotation)
+                Restructuring(t->lchild);
+            }
+        }
+        else {                                     // p : right
+            // Case 3. Single rotation (＼)
+            if (!t->is_left_child) {               // t : right
+                cout << "case 3 occur!\n";
+                t->p->is_black = 1;
+                t->p->p->is_black = 0;
+                // t.p 왼자식 있다면 !!!!!
+                if (t->p->lchild != nullptr) {
+                    // t.p 왼자식 부모 = t.p.p
+                    t->p->lchild->p = t->p->p;
+                    // t.p.p 오른자식 = t.p 왼자식
+                    t->p->lchild->is_left_child = 0;
+                    t->p->p->rchild = t->p->lchild;
+                }
+                else {
+                    t->p->p->rchild = nullptr;
+                }
+                // t.p 왼자식 = t.p.p
+                t->p->lchild = t->p->p;
+                // 부모노드 변경
+                if (t->p->p->p != nullptr) {
+                    // Great great parent
+                    rb_node* ancestor = t->p->p->p;
+                    if (t->p->p->is_left_child) {
+                        ancestor->lchild = t->p;
+                        t->p->is_left_child = 1;
+                    }
+                    else {
+                        ancestor->rchild = t->p;
+                        t->p->is_left_child = 0;
+                    }
+                    t->p->p = ancestor;
+                }
+                else {
+                    t->p->p = nullptr;
+                    root = t->p;
+                }
+                t->p->lchild->p = t->p;
+                t->p->lchild->is_left_child = 1;
+            }
+            // Case 4. Double rotation ( 〉)
+            else {                         // t : left
+                cout << "case 4 occur!\n";
+                // t.p 오른자식 있다면 !!!!!
+                if (t->rchild != nullptr) {
+                    // t 오른자식 부모 = t.p
+                    t->rchild->p = t->p;
+                    // t.p 왼자식 = t 오른자식
+                    t->rchild->is_left_child = 1;
+                    t->p->lchild = t->rchild;
+                }
+                else {
+                    t->p->lchild = nullptr;
+                }
+                // t 오른자식 = t 부모
+                t->rchild = t->p;
+                // t.p.p 오른자식 = t
+                t->is_left_child = 0;
+                t->p->p->rchild = t;
+                // 부모 노드 연결
+                rb_node* gp = t->p->p;
+                t->p->p = t;
+                t->p = gp;
+                // Go to Case 3. (Single rotation)
+                Restructuring(t->rchild);
+            }
+        }
+    }
+    void Recoloring(rb_node* p) {
+        cout << "Recoloring occur!\n";
+        p->is_black = 1;
+        if (p->is_left_child) p->p->rchild->is_black = 1;
+        else p->p->lchild->is_black = 1;
+        if (p->p->p != nullptr) {
+            p->p->is_black = 0;
+            if (!p->p->p->is_black)     // Propagate Rotation
+                rotation(p->p);
+        }
+        else p->p->is_black = 1;        // p.p : root 노드
+    }
+    void rotation(rb_node* t) {
+        rb_node* pnode = t->p;
+        if (pnode->p != nullptr) {
+            rb_node* sibling;
+            if (pnode->is_left_child)        // pnode : left child
+                sibling = pnode->p->rchild;
+            else                             // pnode : right child
+                sibling = pnode->p->lchild;
+            if (sibling == nullptr || sibling->is_black) {
+                // Reconstrcturing
+                Restructuring(t);
+            }
+            else {
+                // Recoloring
+                Recoloring(pnode);
+            }
+        }
+    }
+    rb_node* get_node_loc(int key) {
+        rb_node* finder = root;
+        while (1) {
+            if (finder->key == key) {
+                return finder;
+            }
+            else if (finder->key < key) {
+                if (finder->rchild != nullptr) finder = finder->rchild;
+                else { return finder; }
+            }
+            else {
+                if (finder->lchild != nullptr) finder = finder->lchild;
+                else { return finder; }
+            }
+        }
+    }
+    void insert_node(int key) {
+        rb_node* finder = get_node_loc(key);
+        rb_node* new_node = new rb_node;
+        if (finder->key < key) {
+            finder->rchild = new_node;
+            new_node->is_left_child = 0;
+        }
+        else {
+            finder->lchild = new_node;
+            new_node->is_left_child = 1;
+        }
+        new_node->key = key;
+        new_node->p = finder;
+        if (finder->is_black) return;           // 부모 Black 노드 -> 삽입 종료
+        else rotation(new_node);                // 부모 Red 노드   -> rotation 실행
+    }
+    void print_pre_trav(rb_node* r) {
+        cout << r->key << "    is black : " << r->is_black << "\n";
+        if (r->lchild != nullptr)
+            print_pre_trav(r->lchild);
+        if (r->rchild != nullptr)
+            print_pre_trav(r->rchild);
+    }
+};
+int main() {
+    int N, M, k;
+    cin >> N;                  // Tree 개수(Case 개수)
+    while (N--) {
+        cin >> M >> k;            // M : 삽입 개수
+        RedBlack_Tree rbtree(k);
+        
+        while (--M) {
+            cin >> k;            // 삽입 키
+            rbtree.insert_node(k);
+
+            rb_node* rb_root = rbtree.get_root();
+            rbtree.print_pre_trav(rb_root);
+            cout << "-------------\n";
+        }
+        // 최종 삽입 후 순회 결과
+        //rb_node* rb_root = rbtree.get_root();
+        //rbtree.print_pre_trav(rb_root);
+        //cout << "-------------\n";
+    }
+}
