@@ -1,15 +1,15 @@
-'''
+/*
 ==========================================================================================
-    * Red-Black 트리 삽입 및 검색(전위순회) 구현.
-    * 입력
-        1st line : 테스트 할 횟수(트리 개수)
-        2nd line : 삽입할 노드 개수
-        3rd ~    : 삽입 key(정수)
-        삽입 완료(2nd line 개수 만큼 입력 후) 테스트 횟수가 남았다면, 다시 1st line으로.
-    * 출력
-        매 삽입 이후 전위순회 결과 + Node color
+*Red - Black 트리 삽입 및 검색(전위순회) 구현.
+* 입력
+1st line : 테스트 할 횟수(트리 개수)
+2nd line : 삽입할 노드 개수
+3rd ~: 삽입 key(정수)
+삽입 완료(2nd line 개수 만큼 입력 후) 테스트 횟수가 남았다면, 다시 1st line으로.
+* 출력
+매 삽입 이후 전위순회 결과 + Node color
 ==========================================================================================
-'''
+*/
 #include <iostream>
 using namespace std;
 struct rb_node {
@@ -32,11 +32,11 @@ public:
     rb_node* get_root() { return root; }
     void Restructuring(rb_node* t) {
         if (t->p->is_left_child) {                    // p : left
-            '''
+            /*
             ====================================
-               Case 1. Single rotation (／)
+            Case 1. Single rotation(／)
             ====================================
-            '''
+            */
             if (t->is_left_child) {                   // t : left
                 cout << "case 1 occur!\n";
                 t->p->is_black = 1;
@@ -75,11 +75,11 @@ public:
                 t->p->rchild->p = t->p;
                 t->p->rchild->is_left_child = 0;
             }
-            '''
+            /*
             ====================================
-               Case 2. Double rotation (〈 )
+            Case 2. Double rotation(〈)
             ====================================
-            '''
+            */
             else {                                  // t : right
                 cout << "case 2 occur!\n";
                 // t.p 왼자식 있다면 !!!!!
@@ -107,11 +107,11 @@ public:
             }
         }
         else {                                     // p : right
-            '''
+            /*
             ====================================
-               Case 3. Single rotation (＼)
+            Case 3. Single rotation(＼)
             ====================================
-            '''
+            */
             if (!t->is_left_child) {               // t : right
                 cout << "case 3 occur!\n";
                 t->p->is_black = 1;
@@ -150,11 +150,11 @@ public:
                 t->p->lchild->p = t->p;
                 t->p->lchild->is_left_child = 1;
             }
-            '''
+            /*
             ====================================
-               Case 4. Double rotation ( 〉)
+            Case 4. Double rotation(〉)
             ====================================
-            '''
+            */
             else {                         // t : left
                 cout << "case 4 occur!\n";
                 // t.p 오른자식 있다면 !!!!!
@@ -259,7 +259,7 @@ int main() {
     while (N--) {
         cin >> M >> k;            // M : 삽입 개수
         RedBlack_Tree rbtree(k);
-        
+
         while (--M) {
             cin >> k;            // 삽입 키
             rbtree.insert_node(k);
