@@ -32,7 +32,11 @@ public:
     rb_node* get_root() { return root; }
     void Restructuring(rb_node* t) {
         if (t->p->is_left_child) {                    // p : left
-            // Case 1. Single rotation (／)
+            '''
+            ====================================
+               Case 1. Single rotation (／)
+            ====================================
+            '''
             if (t->is_left_child) {                   // t : left
                 cout << "case 1 occur!\n";
                 t->p->is_black = 1;
@@ -71,7 +75,11 @@ public:
                 t->p->rchild->p = t->p;
                 t->p->rchild->is_left_child = 0;
             }
-            // Case 2. Double rotation (〈 )
+            '''
+            ====================================
+               Case 2. Double rotation (〈 )
+            ====================================
+            '''
             else {                                  // t : right
                 cout << "case 2 occur!\n";
                 // t.p 왼자식 있다면 !!!!!
@@ -99,7 +107,11 @@ public:
             }
         }
         else {                                     // p : right
-            // Case 3. Single rotation (＼)
+            '''
+            ====================================
+               Case 3. Single rotation (＼)
+            ====================================
+            '''
             if (!t->is_left_child) {               // t : right
                 cout << "case 3 occur!\n";
                 t->p->is_black = 1;
@@ -138,7 +150,11 @@ public:
                 t->p->lchild->p = t->p;
                 t->p->lchild->is_left_child = 1;
             }
-            // Case 4. Double rotation ( 〉)
+            '''
+            ====================================
+               Case 4. Double rotation ( 〉)
+            ====================================
+            '''
             else {                         // t : left
                 cout << "case 4 occur!\n";
                 // t.p 오른자식 있다면 !!!!!
