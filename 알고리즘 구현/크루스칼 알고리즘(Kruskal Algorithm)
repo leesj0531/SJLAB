@@ -1,0 +1,110 @@
+/*
+==========================================================================================
+	* 무향 가중치 그래프 MST 생성 방법 - 크루스칼(Kruskal) 알고리즘 구현.
+	* Union-Find (Union-by-rank + Path-compression) 자료구조로 구현.
+	* 입력
+		1st line : 삽입할 간선 개수
+		2nd ~    : 정점1 정점2 간선가중치 (ex- 1 3 6) 순으로 입력
+	* 출력
+		최종 삽입 이후 MST 연결 순서대로 "정점1 - 정점2 - 간선 가중치 <- 연결 순서" 출력
+==========================================================================================
+*/
+#include <iostream>
+#include <vector>
+#include <queue>
+using namespace std;
+struct weighted_edge {		// 가중치 엣지 저장용 구조체
+	int vertex1;
+	int vertex2;
+	int weight;
+};
+int visit[10001];
+vector<int> MST;
+vector<weighted_edge> edge;
+class Union_Find {				// 최소 대표값 Union-find
+	vector<int> parent;
+	vector<int> rank;
+public:
+	Union_Find(int capa) {
+		parent.resize(capa);
+		rank.resize(capa);
+	}
+	void Make_set(int key) {
+		if (parent.capacity() < key) {
+			parent.resize(key);
+			rank.resize(key);
+		}
+		parent[key] = key;
+		rank[key] = 1;
+	}
+	int Find(int key) {
+		if (parent[key] == key) {
+			return key;
+		}
+		else {
+			return Find(parent[key]);
+		}
+	}
+	void Union(int key1, int key2) {			// key1(a)을 key2(b)의 자식으로 병합
+		int a = Find(key1);
+		int b = Find(key2);
+		if (a == b) {							// a와 b가 같은 집합에 있다면 종료.
+			return;
+		}
+		// Union-by-Rank
+		if (rank[a] == rank[b]) {				// a와 b의 랭크가 같을 경우  a를 하위 순위로 보냄
+			rank[a]++;
+		}
+		// Path Compression
+		else if (rank[a] < rank[b]) {			// a가 b보다 랭크가 높을(작은) 경우 a와 b의 랭크 교환
+			rank[a] ^= rank[b] ^= rank[a] ^= rank[b];		// swap value using xor operator
+		}
+		parent[a] = b;
+	}
+};
+void kruskal_algorithm(Union_Find uf) {
+	cout << "------------\n";
+	int s, l;
+	int cnt = 1;
+	for (weighted_edge it : edge) {
+		if (uf.Find(it.vertex1) != uf.Find(it.vertex2)) {
+			s = it.vertex1; l = it.vertex2;
+			if (s > l) {
+				s ^= l ^= s ^= l;
+			}
+			// Add edge to MST
+			if (!visit[s]) {
+				visit[s] = 1;
+				MST.push_back(s);
+			}
+			if (!visit[l]) {
+				visit[l] = 1;
+				MST.push_back(l);
+			}
+			cout << s << " " << l << " ,    w : " << it.weight << "  <--" << cnt++ << "\n";
+			// Union vertices
+			uf.Union(l, s);
+		}
+	}
+	cout << "\n";
+}
+bool my_cmp__greater(weighted_edge n1, weighted_edge n2) {
+	return n1.weight < n2.weight;
+}
+int main() {
+	int edge_num, v1, v2, w;
+	weighted_edge temp_edge;
+	Union_Find uf(20);		// Set capacity
+	cin >> edge_num;
+	while (edge_num--) {
+		cin >> v1 >> v2 >> w;
+		temp_edge.vertex1 = v1;
+		temp_edge.vertex2 = v2;
+		temp_edge.weight = w;
+		edge.push_back(temp_edge);
+		uf.Make_set(v1);
+		uf.Make_set(v2);
+	}
+	sort(edge.begin(), edge.end(), my_cmp__greater);
+	kruskal_algorithm(uf);
+}
