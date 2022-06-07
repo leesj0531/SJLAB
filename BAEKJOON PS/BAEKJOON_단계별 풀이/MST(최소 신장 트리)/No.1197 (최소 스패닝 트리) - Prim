@@ -1,0 +1,62 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+using namespace std;
+struct weighted_edge {		// 가중치 엣지 저장용 구조체
+	int adjacent_v;
+	int weight;
+};
+struct my_cmp__greater {	// 우선순위 큐 정렬 custom 함수
+	bool operator()(weighted_edge n1, weighted_edge n2) {
+		return n1.weight > n2.weight;
+	}
+};
+int visit[10001];			// 최종 생성되는 MST 정점 의미.
+vector<weighted_edge> edge[100001];
+// priority_queue : <자료형, 구현체, 비교연산자>.  ex)  priority_queue<int, vector<int>, greater<int>> pq;
+priority_queue<weighted_edge, vector<weighted_edge>, my_cmp__greater> fringe;
+void prims_algorithm(int start_key, int vertex_number) {
+	// 첫 vertex
+	visit[start_key] = 1;
+	for (auto it : edge[start_key]) {
+		fringe.push(it);
+	}
+	// Spanning
+	weighted_edge min_v;
+	long long wsum = 0;
+	int cnt = 1;
+	while (!fringe.empty()) {
+		min_v = fringe.top();
+		fringe.pop();
+		if (visit[min_v.adjacent_v]) {		// min_v 정점이 이미 Tree에 들어간 경우 skip.
+			continue;
+		}
+		cnt++;
+		wsum += min_v.weight;
+		if (cnt == vertex_number) break;
+		visit[min_v.adjacent_v] = 1;		// Greedy 선택. 현재 weight값 가장 작은 애가 최적.
+		for (auto it : edge[min_v.adjacent_v]) {
+			if (!visit[it.adjacent_v]) {	// 만약, 이미 fringe에 같은 엣지가 있다 해도 상관 없음. min w 기준 tree생성 후 채워졌다면 for문 전 조건에서 탈락.
+				fringe.push(it);
+			}
+		}
+	}
+	cout << wsum;
+}
+int main() {
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+
+	int vertex_num, edge_num, v1, v2, w;
+	weighted_edge temp_edge;
+	cin >> vertex_num >> edge_num;
+	while (edge_num--) {
+		cin >> v1 >> v2 >> w;
+		temp_edge.adjacent_v = v2;
+		temp_edge.weight = w;
+		edge[v1].push_back(temp_edge);
+		temp_edge.adjacent_v = v1;
+		edge[v2].push_back(temp_edge);
+	}
+	prims_algorithm(v1, vertex_num);
+}
