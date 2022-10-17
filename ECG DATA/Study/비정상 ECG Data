@@ -1,0 +1,30 @@
+# 비정상 ECG
+
+- 비정상 ECG 분류 (3가지)
+    1. ***불규칙 심박동수 (irregular heart rate)***
+        - 심박동(Heart rate)은 PP 간격 측정으로 측정 가능
+            - Ex) PP 간격이 길다 → 낮은 심박수(low heart rate)
+        - PP 간격  >  1초  →  동성서맥 (sinus bradycardia. 굴느린맥)
+        - PP 간격  <  0.6초  →  동성빈맥 (sinus tarchycardia. 굴빠른맥)
+        - PP 간격 편차가 매우 크면  →  동성 부정맥(sinus arrhythmia), 동성 블록(sinus block), 동정지(sinus arrest)  의심
+        
+    2. ***불규칙 심박동 (irregular rhythm)***
+        - 동방결절(SA 노드)에서 심박 출발해도 ST 부분과 T 파의 모양이 이상(ST-T changes)할 수 있음
+        - ST-T changes가 의미하는 신호
+            - 고칼륨혈(증) (hyperkalemia)
+            - 국소 빈혈 (ischemia)
+            - 이상 신호 예시
+            
+            ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f3e91142-f408-4475-8d52-592b47ca0ae6/Untitled.png)
+            
+        - PP 간격  >  1초  →  동성서맥 (sinus bradycardia. 굴느린맥)
+        
+    3. ***이소성 심박동 (ectopic rhythm)***
+        
+        1) SA노드가 아닌, 심방에서 심박이 시작되는 경우
+        
+        - 신호의 의미
+            - 심방조기수축 (Premature Atrial Contraction)
+                - 감정적인 스트레스, 카페인 과다복용, 갑상선 기능 항진증으로 유발됨.
+            - 심방빈박 (Atrial Tachycardia)
+                - 심방조기수축이 3번 이상 나오면  →  심장빈박. 현기증, 졸도 유발.
