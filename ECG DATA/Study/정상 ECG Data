@@ -1,0 +1,21 @@
+# 정상 ECG
+
+- 정상 신호 이동 경로
+    - 동방결절 노드(sinoatiral node) 출발  →  심근을 타고 이동  →  환자 흉부 도착
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3db0ade6-e8ca-4786-9d9c-a7db0b8f5c7b/Untitled.png)
+    
+
+- 정상 신호 발생 경로
+    1. 심방 탈분극 (P 파 발생)
+    2. 심실 탈분극 (QRS 파 발생)
+    3. 심실 재분극 (T 파, U 파 발생)
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/64765ddb-0e8a-428b-869e-c8ec020a35b2/Untitled.png)
+    
+
+- 정상 신호 ECG 범위
+    - P, QRS, T파 범위 : 60 ~ 100 bpm
+    - PR 간격 (PR interval) : 0.12 ~ 0.2 초
+    - QT 간격 (QT interval) : RR 간격(또는 PP 간격) / 2 보다 작음 (QT x 2 < RR)
+    - RR 간격 (RR interval) : 제일 짧은 RR 간격과 제일 긴 RR 간격 편차가 0.04초 이내 ( = PP 간격)
