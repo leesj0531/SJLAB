@@ -1,0 +1,93 @@
+# 12-lead ECG
+
+- 6개의 사지 전극(limb leads)와 6개의 흉부 전극(chest lead = precordial lead)로 구분됨.
+    - 6개 사지 전극(limb leads) 종류 : Ⅰ, Ⅱ, Ⅲ, aVF, aVL, aVR
+        - 사시 전극은 위치가 중요하며, 디테일한 부위는 크게 중요하지 않음 !
+            
+            (Ex. LA면 왼팔 하완, 상완, 심지어 어깨 근처까지 전극 붙여도 크게 지장없음)
+            
+        - 3개 Standard leads : Ⅰ, Ⅱ, Ⅲ
+            - [Einthoven’s Triangle](https://en.wikipedia.org/wiki/Einthoven%27s_triangle)
+                - 오른팔(RA), 왼팔(LA), 왼다리(LF)의 전극을 가상의 선으로 이은 삼각형.
+                - 이 삼각형의 화살표 방향에 따라서 사지 전극(limb leads)가 구분됨.
+                    
+                    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/54b2a393-4c39-4772-95e1-80f1ff9e817b/Untitled.png)
+                    
+                - 화살표 방향의 의미는 각 전극의 Lead vector.
+                - Lead vector + Cardiac vector(실제 심장이 나타내는 벡터)로 실제 벡터 측정 가능.
+                - Lead Ⅱ = Lead Ⅰ + Lead Ⅲ
+                    
+                    (Lead Ⅱ가 가장 크게 측정되는 이유)
+                    
+                - < 오른다리(RF)는 측정에 사용되지 않나? >
+                    - Signal이 매우 작은 ECG는 Hum(측정장치)에 쓰이는 60hz 잡음에도 쉽게 손상됨.
+                    - 따라서 오른다리(RF)에도 전극을 붙이지만, 목적은 Hum 잡음 상쇄로 사용됨.
+                        
+                        (60hz의 반전 신호를 넣어줌)
+                        
+        - 3개 Augmented limb leads : aVF, aVL, aVR
+            - = Unipolar limb leads. 하나의 기록 전극 존재(RA or LA or LF).
+            - 기준 전극(Reference lead)  →  triangle 중심의 가상의 전극!!
+            
+            ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0294bb84-dd3a-4bd3-93fb-e9f71b344ec3/Untitled.png)
+            
+            - aVF(Augmented Vortage Foot) : 증폭된 전압 발 전극. 기록 전극이 왼발에 있음.
+            - aVL(Augmented Vortage Left Arm) : 증폭된 전압 왼팔 전극. 기록 전극이 왼팔에 있음.
+            - aVR(Augmented Vortage Right Arm) : 증폭된 전압 오른팔 전극. 기록 전극이 오른팔에 있음.
+        - 사지 전극은 시상면(sagittal plane)에서의 관측.
+            
+            ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/86ccace0-a70d-4b52-9600-0f48208c8cbb/Untitled.png)
+            
+        - 횡단면에서의 관측이 추가로 필요함. → 흉부 전극
+    - 6개 흉부 전극 종류 : V1 - V6
+        - 흉부 전극은 사지 전극과 다르게, 전극 부착 부위가 정확해야 함.
+        - 부착 부위
+            - V1 : 4번 늑골강(4번~5번 갈비뼈 사이)과 흉골 오른쪽 경계 접점 지점.
+            - V2 : 4번 늑골강과 흉골 왼쪽 경계 접점 지점.
+            - V3 : V2와 V4의 중간 지점.
+            - V4 : 5번 늑골강(5번~6번 갈비뼈 사이)과, 왼쪽 쇄골(빗장뼈) 중앙으로부터 그은 가상선이 만나는 지점.
+            - V5 : V4와 같은 높이에서 왼쪽 앞겨드랑이선(가슴 옆의 갈비뼈 앞쪽 만져지는 부위)이 만나는 지점.
+            - V6 : V4와 같은 높이에서 왼쪽 중간겨드랑이선(옆구리의 갈비뼈 만져지는 부위)이 만나는 지점.
+            
+            ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8d35fe99-a7b0-432c-92b4-14c4b20631e1/Untitled.png)
+            
+        - 전극 별 관측 대상
+            - V1, V2 : 심실 중격
+            - V3, V4 : 심실 앞 쪽
+            - V5, V6 : 심실 가장자리 쪽
+    - 사지유도 + 흉부유도 의미
+        - 3차원적으로 심장을 볼 수 있음.
+        
+        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/42169134-f89d-4eb3-acc5-dd978d3725d7/Untitled.png)
+        
+- 사용 용도  : 표준 임상 율동부정 분석(standard clinical dysrhythmia analysis)
+- 사용 목적
+    - 가슴 통증 (chest pain)
+    - 가슴 불편함 (chest discomfort)
+    - 전격상(electrical injury)
+    - 전해액 불균형 (electrolyte imbalance)
+    - 약물 과다복용 (medication overdoses)
+    - 심실 기능상실 (ventricular failure)
+    - 뇌졸중 (stroke)
+    - 실신 (syncope)
+    - 불안정 환자 (unstable patient)
+
+# 3-lead ECG
+
+- 12-lead ECG를 이용한 환자의 지속적인 모니터링이 현실적으로 힘들기 때문에 대체.
+- 휴대용 기기를 이용해 측정이 가능하도록 개발.
+- 3-lead ECG로도 유의미한 진단이 가능하다는 많은 연구 결과 존재 !
+- 3-lead tele ECG (tele ECG : 원격 ECG)  →  여러 심장 이상 현상 확인 가능 ()
+- 여기서 말하는 심장 이상 현상은?
+    - 부정맥 (arrhythmias)
+    - 방실 블록 (atrioventricular blocks  == Heart block)
+    - 재분극 이상 (re-polarization abnormalities)
+
+# 3-lead vectorcardiogram (VCG)
+
+- 심혈관질환 검출 가능 (Dehnavi et al.)
+- 국소빈혈(ischemia) 검출 실험 → 3-lead vs 12-lead 실험 결과 차이 없음 !
+
+3-lead를 이용해서 12-lead를 복원하는 연구도 많이 되고있음.
+
+aVL(Augmented Vortage Left Arm) : 증폭된 전압 왼팔 전극. 기록 전극이 왼팔에 있음.
