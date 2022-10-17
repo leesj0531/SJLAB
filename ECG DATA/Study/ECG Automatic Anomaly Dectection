@@ -1,0 +1,26 @@
+# 자동 심장 이상 탐지
+(Automatic Heart Anomaly Detection)
+
+- ECG 신호 이상 탐지 대상
+    1. 불규칙 심박동수 (Irregular heart rate)
+    2. 불규칙 심박동 (Irregular heartbeat)
+    3. 불규칙 리듬 (Irregular rhythm)
+    
+    - 이상 탐지는 모든 심박 시계열(all heartbeat sequences)을 대상으로 필요함.
+    - 조금의 불규칙 리듬(이상 RR 간격, 이소성 리듬) 역시 탐지 대상임.
+- ECG 신호 이상 탐지 절차
+    1. 잡음 제거 (noise removal)
+        - 관측 기기, 환자 움직임 등으로 유입된 신호 영향을 최소화하는 것이 목적 !
+    2. 심박 탐지 (heartbeat detection)
+        - 심박수(heartrate) 계산을 위해 심박 위치 탐색 목적 !
+    3. 심박 구분 (heartbeat segmentation)
+        - 정상 심박 위치(heartbeat location)를 기준으로 관측 ECG신호의 모든 심박 신호 추출 !
+    4. 심박 분류 (heartbeat classification)
+        - ECG 신호의 모든 이상 심박(Any abrnormal heartbeat shape)을 확인 !
+    5. 리듬 분류 (rhythm classification)
+        - 심박 분류와 비슷하지만, ECG에서 한 심박 모양을 확인하는 것이 아닌 주기(period)를 확인.
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e73f46ad-f475-45c7-ab69-fc6870c807f4/Untitled.png)
+    
+    - 이상 탐지는 모든 심박 시계열(all heartbeat sequences)을 대상으로 필요함.
+    - 조금의 불규칙 리듬(이상 RR 간격, 이소성 리듬) 역시 탐지 대상임.
